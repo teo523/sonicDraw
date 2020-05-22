@@ -1,4 +1,4 @@
-var socket;
+//var socket;
 var lineThickness;
 var lineColor = [];
 var cursorX;
@@ -9,6 +9,8 @@ var osc = [];
 var isOn = [];
 let icon1,icon2,icon3,icon4;
 var option = 1;
+var vector = [];
+var timeSteps = 500;
 
 function preload() {
     icon1 = loadImage('images/icon1.png');
@@ -21,7 +23,8 @@ function preload() {
 function setup() {
     var canv = createCanvas(windowWidth, windowHeight);
     background(255,255,255);
-     
+
+    
     loadImage('images/icon1.ong', img => {
     
   });
@@ -89,9 +92,9 @@ function mouseDragged() {
         y: cursorY,
     };
     //socket.emit('mouse', data);
-    for (var i = 0; i < particles.length; i++) {
-    particles[i].update();
-    }
+    
+    particles[particles.length-1].update();
+    
  
     noStroke();
     //fill(lineColor[0], lineColor[1], lineColor[2]);
@@ -141,8 +144,8 @@ function Particle(x, y) {
 
   this.show = function(lc) {
     stroke(222,222,222);
-    fill(250, 250,255);
-    ellipse(this.x, this.y, 24, 24);
+    //fill(250, 250,255);
+    //ellipse(this.x, this.y, 24, 24);
 
     /*noFill();
     beginShape();
@@ -172,7 +175,7 @@ var Playing = 0;
     for (var j=0;j<particles[i].history.length;j++) {
         if (abs(particles[i].history[j].x-headX)<5){
             Playing = 1;
-            osc[i].freq(map(particles[i].history[j].y,height,0,80,1600));
+            osc[i].freq(map(particles[i].history[j].y,5*height/6,0,80,1000));
             if (isOn[i] == 0){
             console.log("osc started");
             osc[i].amp(0.03);
