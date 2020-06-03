@@ -185,8 +185,8 @@ function mousePressed() {
 function mouseDragged() {
     var mousex = mouseX;
     var mousey = mouseY;
-    cursorX = 0.90*cursorX+0.10*mousex;
-    cursorY = 0.90*cursorY+0.10*mousey;
+    cursorX = 0.93*cursorX+0.07*mousex;
+    cursorY = 0.93*cursorY+0.07*mousey;
     var data = {
         x: cursorX,
         y: cursorY,
@@ -301,7 +301,7 @@ var Playing = 0;
                 filters[i].freq(map(particles[i].history[j].y,5*height/6,0,10,6000));
             else 
                 filters[i].freq(map(particles[i].history[j].y,5*height/6,0,10,6000));
-            osc[i].amp(map(particles[i].history[j].z,1,10,0.01,0.2));
+            osc[i].amp(map(particles[i].history[j].z,1,10,0.01,0.2),0.01);
             
            if (isOn[i] == 0){
             //console.log("osc started");
@@ -313,7 +313,7 @@ var Playing = 0;
     
     }
 if (isOn[i]==1 && Playing==0){
-    osc[i].amp(0,0.3);
+    osc[i].amp(0,0.01);
     isOn[i] = 0;
     //console.log("osc ended");
 }
