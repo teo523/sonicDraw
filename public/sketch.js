@@ -37,6 +37,7 @@ function preload() {
     icon12 = loadImage('images/airbrush.png');
     icon13 = loadImage('images/play.png');
     icon14 = loadImage('images/stop.png');
+    icon15 = loadImage('images/save.png');
 
 
 }
@@ -75,7 +76,7 @@ function newDrawing(data) {
 }
 
 function mousePressed() {
-    if (mouseY<=0.1*height && mouseX<0.1*width)
+    if (mouseY<=width/30 && mouseX<width/30)
         saveFile();
     
     console.log("mousePressed");
@@ -478,6 +479,8 @@ function menuButtons() {
         image(icon13, width-tWidth/2-icon13.width/2, height - bHeight + icon13.height/2);
     }
 
+    icon15.resize(width/30,width/30);
+    image(icon15, 0,0);
 
 }
 
