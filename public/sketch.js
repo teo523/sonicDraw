@@ -295,12 +295,15 @@ var Playing = 0;
     for (var j=0;j<particles[i].history.length;j++) {
         if (abs(particles[i].history[j].x-headX)<5){
             Playing = 1;
+            let x = 5 - particles[i].history[j].y/(height/6);
+            let f = 50*pow(2,x);
             if(particles[i].type<=4)
-                osc[i].freq(map(particles[i].history[j].y,5*height/6,0,30,600));
+                osc[i].freq(f);
+                
             else if (particles[i].type<=6)
-                filters[i].freq(map(particles[i].history[j].y,5*height/6,0,10,6000));
+                filters[i].freq(f);
             else 
-                filters[i].freq(map(particles[i].history[j].y,5*height/6,0,10,6000));
+                filters[i].freq(f);
             osc[i].amp(map(particles[i].history[j].z,1,10,0.01,0.2),0.01);
             
            if (isOn[i] == 0){
