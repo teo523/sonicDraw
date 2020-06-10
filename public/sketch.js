@@ -4,6 +4,7 @@ var lineColor = [];
 var cursorX;
 var cursorY;
 var headX=0;
+var speed = 10;
 var particles = [];
 var filters= [];
 var osc = [];
@@ -18,6 +19,8 @@ var tWidth;
 var tHeight;
 var icon10;
 let extracanvas;
+var isPlaying = 1;
+let vOffset;
 
 function preload() {
     icon1 = loadImage('images/icon1.png');
@@ -32,6 +35,8 @@ function preload() {
     icon10 = loadImage('images/airbrush.png');
     icon11 = loadImage('images/airbrush.png');
     icon12 = loadImage('images/airbrush.png');
+    icon13 = loadImage('images/play.png');
+    icon14 = loadImage('images/stop.png');
 
 
 }
@@ -41,12 +46,18 @@ function setup() {
 
     background(255,255,255);
 
+    vOffset = (height - bHeight - 8*tHeight)/2;
     bHeight=height/6;
     tWidth=width/10;
     tHeight=height/10;
 
     extracanvas = createGraphics(windowWidth-tWidth, windowHeight-bHeight);
     extracanvas.clear();
+
+
+    slider = createSlider(1, 50, 10);
+    slider.position(width - 0.95*tWidth ,height-0.8* bHeight / 3);
+    slider.style('width', '8vw');
 
 
     var data = {
@@ -64,6 +75,10 @@ function newDrawing(data) {
 }
 
 function mousePressed() {
+    if (mouseY<=0.1*height && mouseX<0.1*width)
+        saveFile();
+    
+    console.log("mousePressed");
     //if we are in the drawing rectangle, then create an osc
     if(mouseY<=5*height/6 && mouseX<width-tWidth){
         cursorX = mouseX;
@@ -144,45 +159,51 @@ function mousePressed() {
         else if (mouseY>=3*tHeight && mouseY<4*tHeight)
             thick = 2;
         //airbrushes
-        else if (mouseY>=4*tHeight && mouseY<5*tHeight)
+        else if (mouseY>=4*tHeight + vOffset && mouseY<5*tHeight + vOffset)
             thick = 20;
-        else if (mouseY>=5*tHeight && mouseY<6*tHeight)
+        else if (mouseY>=5*tHeight + vOffset && mouseY<6*tHeight + vOffset)
             thick = 17;
-        else if (mouseY>=6*tHeight && mouseY<7*tHeight)
+        else if (mouseY>=6*tHeight + vOffset && mouseY<7*tHeight + vOffset)
             thick = 14;
-        else 
+        else if (mouseY>=7*tHeight + vOffset && mouseY<8*tHeight + vOffset)
             thick = 12;
 
-        //update from pen to airbrush or opposite
-        if (thick > 10 && option < 5){
-            option += 4;
-            
-        }
-        else if (thick <= 10 && option > 4)
-            option -= 4;
-       console.log(option);
+        
+    
     }
     //lower bar button update
-    else{
-        if (mouseX<width/4)
+    else {
+        if (mouseX<bWidth)
             option = 1;
-        else if (mouseX>width/4 && mouseX<width/2)
+        else if (mouseX>bWidth && mouseX<2*bWidth)
             option = 2;
-        else if (mouseX>width/2 && mouseX<3*width/4)
+        else if (mouseX>2*bWidth && mouseX<3*bWidth)
             option = 3;
-        else if (mouseX>3*width/4)
+        else if (mouseX>3*bWidth && mouseX<4*bWidth)
             option = 4;
+        else if (mouseY > height - bHeight && mouseY < height - bHeight / 3 )
+            isPlaying = 1 - isPlaying;
 
-        if (thick > 10)
+        if (thick > 10 && mouseY <= height - 2 * bHeight / 3)
             option+=4;
 
 
     
     }
 
+//update from pen to airbrush or opposite
+        if (thick > 10 && option < 5){
+            option += 4;
+            
+        }
+        else if (thick <= 10 && option > 4){
+            option -= 4;
+
+        }
 }
 
 function mouseDragged() {
+    if (mouseY<=5*height/6 && mouseX<=width-tWidth){
     var mousex = mouseX;
     var mousey = mouseY;
     cursorX = 0.93*cursorX+0.07*mousex;
@@ -199,7 +220,7 @@ function mouseDragged() {
         airbrush();
 
     
-
+}
  
 
     //fill(lineColor[0], lineColor[1], lineColor[2]);
@@ -208,14 +229,16 @@ function mouseDragged() {
 
 function draw() {
     background(255,123,0);
-    menuButtons();
+    speed = slider.value();
+    
     if (mouseIsPressed && mouseY<=5*height/6 && mouseX<=width-tWidth) {
         mouseDragged();
     }
- 
+    menuButtons();
     stroke(0,0,0);
-    line(headX,0,headX,height);
-    headX+=10;
+    line(headX,0,headX,height-bHeight);
+    if (isPlaying)
+        headX+=speed;
     if (headX>=width-tWidth)
         headX=0;
     playOscillators();
@@ -304,10 +327,10 @@ var Playing = 0;
                 filters[i].freq(f);
             else 
                 filters[i].freq(f);
+
             osc[i].amp(map(particles[i].history[j].z,1,10,0.01,0.2),0.01);
             
            if (isOn[i] == 0){
-            //console.log("osc started");
             
             osc[i].start();  
             isOn[i]=1;}
@@ -318,7 +341,6 @@ var Playing = 0;
 if (isOn[i]==1 && Playing==0){
     osc[i].amp(0,0.01);
     isOn[i] = 0;
-    //console.log("osc ended");
 }
 
 }
@@ -328,42 +350,44 @@ function menuButtons() {
     bHeight=height/6;
     tWidth=width/10;
     tHeight=height/10;
+    bWidth= (width - tWidth - vOffset)/4
     stroke(0);
     strokeWeight(4);
     
+    //paint bottom bar rectangles with white frame if they are selected
     fill(255,0,0);
-    if (option == 1)
+    if (option == 1 || option == 5)
         stroke(255);
-    rect(0,height - bHeight,width/4,bHeight);
+    rect(0,height - bHeight,bWidth,bHeight);
     icon1.resize(bHeight/2,bHeight/2);
-    image(icon1, width/8-icon1.width/2,height-bHeight/2-icon1.height/2);
+    image(icon1, bWidth/2-icon1.width/2,height-bHeight/2-icon1.height/2);
     noStroke();
 
-    if (option == 2)
+    if (option == 2 || option == 6)
         stroke(255);
     fill(180,0,60);
-    rect(width/4,height - bHeight,width/4,bHeight);
+    rect(bWidth,height - bHeight,bWidth,bHeight);
     icon2.resize(bHeight/2,bHeight/2);
-    image(icon2, 3*width/8-icon2.width/2,height-bHeight/2-icon1.height/2);
+    image(icon2, 3*bWidth/2-icon2.width/2,height-bHeight/2-icon1.height/2);
     noStroke();
 
-    if (option == 3)
+    if (option == 3 || option == 7) 
         stroke(255);
     fill(60,0,180);
-    rect(width/2,height - bHeight,width/4,bHeight);
+    rect(2*bWidth,height - bHeight,bWidth,bHeight);
     icon3.resize(bHeight/2,bHeight/2);
-    image(icon3, 5*width/8-icon1.width/2,height-bHeight/2-icon1.height/2);
+    image(icon3, 5*bWidth/2-icon1.width/2,height-bHeight/2-icon1.height/2);
     noStroke();
 
-    if (option == 4)
+    if (option == 4 || option == 8)
         stroke(255);
     fill(0,0,255);
-    rect(3*width/4,height - bHeight,width/4,bHeight);
+    rect(3*bWidth,height - bHeight,bWidth,bHeight);
     icon4.resize(bHeight/2,bHeight/2);
-    image(icon4, 7*width/8-icon1.width/2,height-bHeight/2-icon1.height/2);
+    image(icon4, 7*bWidth/2-icon1.width/2,height-bHeight/2-icon1.height/2);
     noStroke();
 
-    //THICKNESS
+    //paint right vertical bar rectangles with white frame if they are selected
     fill(130);
     if (thick == 10)
         stroke(255);
@@ -396,9 +420,10 @@ function menuButtons() {
     image(icon8, width-tWidth/2-icon8.width/2,7*tHeight/2-icon8.height/2);
     noStroke();
 
-    let vOffset = height - bHeight - 8*tHeight;
+    vOffset = (height - bHeight - 8*tHeight)/2;
     translate(0, vOffset);
 
+    //airbrushes rectangles
     fill(130);
     if (thick == 20)
         stroke(255);
@@ -432,6 +457,26 @@ function menuButtons() {
     noStroke();
 
     translate(0, -vOffset);
+    
+
+    //draw slider background and play button
+    fill(0);
+    rect(width-tWidth, height - bHeight/3,tWidth,bHeight/3);
+    if (isPlaying)
+        fill(255,0,0);
+    else 
+        fill(0,255,0);
+
+    rect(width-tWidth, height - bHeight,tWidth,2*bHeight/3);
+
+    if (isPlaying) {  
+        icon14.resize(tHeight/2,tHeight/2);
+        image(icon14, width-tWidth/2-icon14.width/2,height - bHeight + icon14.height/2);
+    }
+    else {
+        icon13.resize(tHeight/2,tHeight/2);
+        image(icon13, width-tWidth/2-icon13.width/2, height - bHeight + icon13.height/2);
+    }
 
 
 }
@@ -445,7 +490,6 @@ function airbrush() {
     let r4 = random(cursorY - spread, cursorY + spread);
     extracanvas.noStroke();
 
-    console.log(option)
     if (option == 5)
         extracanvas.fill(255,0,0);
     if (option == 6)
@@ -455,4 +499,30 @@ function airbrush() {
     if (option == 8)
         extracanvas.fill(0,0,255);
     extracanvas.ellipse(r3, r4, sz, sz);
+}
+
+
+function saveFile() {
+    
+
+    var json = {};
+   
+    for (var i = 0; i < particles.length; i++){
+        json[i]={};
+        json[i].type=particles[i].type;
+        json[i].history=[];
+        for (var j = 0; j < particles[i].history.length; j++){
+            json[i].history[j]=[];
+            json[i].history[j][0]= particles[i].history[j].x;
+            json[i].history[j][1]= particles[i].history[j].y;
+
+        }
+    }
+    
+    // new  JSON Object
+
+
+    saveJSON(json, 'lion.json');
+
+
 }
