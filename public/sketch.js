@@ -78,8 +78,8 @@ function newDrawing(data) {
 function mousePressed() {
     if (mouseY<=width/30 && mouseX<width/30)
         saveFile();
-    
-    console.log("mousePressed");
+
+    console.log("option: " + option);
     //if we are in the drawing rectangle, then create an osc
     if(mouseY<=5*height/6 && mouseX<width-tWidth){
         cursorX = mouseX;
@@ -182,11 +182,10 @@ function mousePressed() {
             option = 3;
         else if (mouseX>3*bWidth && mouseX<4*bWidth)
             option = 4;
-        else if (mouseY > height - bHeight && mouseY < height - bHeight / 3 )
+        else if (mouseY > height - bHeight && mouseY < height - bHeight / 3 ) 
             isPlaying = 1 - isPlaying;
-
-        if (thick > 10 && mouseY <= height - 2 * bHeight / 3)
-            option+=4;
+        
+      
 
 
     
@@ -231,15 +230,20 @@ function mouseDragged() {
 function draw() {
     background(255,123,0);
     speed = slider.value();
-    
+
     if (mouseIsPressed && mouseY<=5*height/6 && mouseX<=width-tWidth) {
         mouseDragged();
     }
     menuButtons();
     stroke(0,0,0);
     line(headX,0,headX,height-bHeight);
-    if (isPlaying)
+    if (isPlaying){
         headX+=speed;
+        masterVolume(1);
+    }
+    else
+         masterVolume(0);
+
     if (headX>=width-tWidth)
         headX=0;
     playOscillators();
