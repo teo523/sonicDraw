@@ -53,7 +53,7 @@ function preload() {
 }
 
 function setup() {
-    canv = createCanvas(4*windowWidth/5, windowHeight);
+    canv = createCanvas(0.7*windowWidth, windowHeight);
     canv.style("z-index","1");
     background(255,255,255);
     //canv.hide();
@@ -248,7 +248,9 @@ function mousePressed() {
                     sendMsgBool = 1;
                     isPlaying = 0;
                    
-                    sendMsg.style("width",JSON.stringify(windowWidth/3));
+                    sendMsg.style("width",JSON.stringify(floor(width/3)));
+                    
+                    console.log(JSON.stringify(width/3));
                     sendMsg.position(width/2-sendMsg.width/2,height/2-sendMsg.height/2);
                     sendMsg.show();
                     
@@ -333,7 +335,7 @@ function draw() {
         slider.hide();
         start.show();
         inst.show();
-        resizeCanvas(4*windowWidth/5, windowHeight,1);
+        resizeCanvas(0.7*windowWidth, windowHeight,1);
         begin = 1;
         isPlaying=0;
     }
@@ -352,9 +354,14 @@ function draw() {
     }
     inst.position(width,0);
     inst.style("height",JSON.stringify(height));
-    inst.style("width",JSON.stringify(0.2*width));
+    inst.style("width",JSON.stringify(0.25*windowWidth));
     inst.style("border-style","dashed");
     inst.style("border-color","black");
+    let r= random(160);
+    let g= random(160);
+    let b= random(160);
+    let newColor = "rgb("+r+","+g+","+b+")";
+    start.style("background-color",newColor);
 
     
     slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
