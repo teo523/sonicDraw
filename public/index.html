@@ -11,12 +11,59 @@
    
 
     <script language="javascript" type="text/javascript" src="sketch.js"></script>
+     <script src="https://smtpjs.com/v3/smtp.js"></script>
     <link rel="stylesheet" href="style.css">
 
     <title>Let's draw!</title>
 </head>
 
+<style>
+.btn {
+  border: solid;
+  background-color: black;
+  color: white;
+  padding: 4px 8px;
+  font-size: 1vw;
+  cursor: pointer;
+  text-align: left;
+}
+
+.btn:hover {
+  border: 2px solid white;
+  background-color: white;
+  color: black;
+  padding: 4px 8px;
+  font-size: 1vw;
+  cursor: pointer;
+  text-align: left;
+}
+</style>
 <body>
-  
+<div id="inst" style="background-color:white;  font-family: courier; font-size: 1vw; padding: 0px 20px 0px 20px;" >
+  <h1 style="background-color:powderblue ; padding = 70px;">Welcome to SonicDraw!</h1>
+  <h2 style="background-color:powderblue ; padding = 10px;">Instructions:</h1>
+
+<ul>
+  <li>USE YOUR LAPTOP (no mobile phones).</li>
+
+  <li>Remember to wear headphones.</li>
+
+</ul>
+<p>In a first step, please explore our web-based tool called SonicDraw for at least 5 minutes as you like. If you want to start again, just reload the page.</p> <p> Once you have explored the sounds and drawings, please create your own piece with SonicDraw and <b>SEND IT</b> to us by clicking the envelope <img src="images/mail.png" width=10% /> icon (left bottom corner).</p> <p>After you send your piece, please go back to the original form</p>
+
+
+<button id="start" class=btn style="z-index:2000;">LET'S START!</button>
+</div>
+<p id="text2" style="writing-mode: tb-rl; font-family: courier; font-size: 2vw; padding: 10px 0px 0px 2px; margin: 5px; border-style: dashed; border-color: black; text-align: center; vertical-align: bottom;">    I N S T R U C T I O N S</p>
+
+
+
+<div id="sendMsg" style="background-color:white;  font-family: courier; font-size: 1vw; padding: 0px 20px 0px 20px; border-style: solid; border-color: black" >
+<p id="sendTxt" style="font-family: courier; font-size: 1vw; padding: 10px 0px 0px 2px; margin: 5px; border-style: dashed; border-color: black; text-align: center; border-width: 1">If you want to sign your piece (so we can know it's yours) please enter your name, otherwise just leave in blank and press SEND.</p> 
+
+<input type="text" id="name"> 
+<button id="sendBtn" class=btn style="z-index:2000;">SEND</button>
+</div>
+
 </body>
 </html>

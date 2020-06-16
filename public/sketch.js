@@ -19,8 +19,17 @@ var tWidth;
 var tHeight;
 var icon10;
 let extracanvas;
-var isPlaying = 1;
+var isPlaying = 0;
 let vOffset;
+var email;
+var picker;
+var border = 90;
+var canv;
+var started = 0;
+var inst;
+var begin = 1;
+var sendMsgBool = 0;
+
 
 function preload() {
     icon1 = loadImage('images/icon1.png');
@@ -38,29 +47,61 @@ function preload() {
     icon13 = loadImage('images/play.png');
     icon14 = loadImage('images/stop.png');
     icon15 = loadImage('images/save.png');
+    icon16 = loadImage('images/mail.png');
 
 
 }
 
 function setup() {
-    var canv = createCanvas(windowWidth, windowHeight);
-
+    canv = createCanvas(4*windowWidth/5, windowHeight);
+    canv.style("z-index","1");
     background(255,255,255);
+    //canv.hide();
+    makeDisplay(false);
+    
+    sendMsg = select("#sendMsg");
+    sendMsg.hide();
+
+    sendBtn = select("#sendBtn");
+    sendBtn.mousePressed(hideSendMessage);
 
     vOffset = (height - bHeight - 8*tHeight)/2;
     bHeight=height/6;
     tWidth=width/10;
     tHeight=height/10;
+    bWidth= (width - tWidth - 6 * vOffset)/4;
 
     extracanvas = createGraphics(windowWidth-tWidth, windowHeight-bHeight);
     extracanvas.clear();
 
+    messageCanvas = createGraphics(windowWidth-2*border, windowHeight-2*border);
+    
 
     slider = createSlider(1, 50, 10);
-    slider.position(width - 0.95*tWidth ,height-0.8* bHeight / 3);
+    slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
     slider.style('width', '8vw');
+    slider.hide();
 
+    inst = select("#inst");
+   
 
+    
+    start = select("#start");
+    start.style("width","13vw");
+    //start.position(width/2,2*height/3);
+    start.style("border-style","solid");
+    start.style("border-color","black");
+    start.style("background-color","black");
+    start.mousePressed(startAll);
+
+     text2 = select("#text2");
+    text2.position(width,0);
+    text2.style("height",JSON.stringify(windowHeight));
+    text2.hide();
+    text2.mouseOver(highlight);
+    text2.mouseOut(unhighlight);
+    text2.mouseClicked(startAll);
+   
     var data = {
         thickness: lineThickness,
         color: lineColor
@@ -75,11 +116,28 @@ function newDrawing(data) {
     //fill(data.color[0], data.color[1], data.color[2]);
 }
 
+function highlight(){
+    text2.style("background-color","rgba(255,0,0,0.3)");
+}
+function unhighlight(){
+    text2.style("background-color","white");
+}
+
+function hideSendMessage() {
+    sendMsg.hide();
+    submitButton();
+}
+
+function startAll() {
+    started = 1 - started;
+}
+
 function mousePressed() {
+
+    if (started){
     if (mouseY<=width/30 && mouseX<width/30)
         saveFile();
 
-    console.log("option: " + option);
     //if we are in the drawing rectangle, then create an osc
     if(mouseY<=5*height/6 && mouseX<width-tWidth){
         cursorX = mouseX;
@@ -149,7 +207,7 @@ function mousePressed() {
     }
     
     //else if mouse click is in right column
-    else if (mouseY<=5*height/6 && mouseX>=width-tWidth){
+    else if (mouseY<=5*height/6 && mouseX>=width-tWidth && mouseX<width){
         //pens
         if (mouseY<tHeight)
             thick = 10;
@@ -182,11 +240,23 @@ function mousePressed() {
             option = 3;
         else if (mouseX>3*bWidth && mouseX<4*bWidth)
             option = 4;
-        else if (mouseY > height - bHeight && mouseY < height - bHeight / 3 ) 
+        else if (mouseY > height - bHeight + vOffset/2 && mouseY < height - bHeight + vOffset/2 + 2*bHeight/3 - vOffset && mouseX > 4 * bWidth + vOffset && mouseX < 4 * bWidth + vOffset + (width - (4 * bWidth + vOffset))/2) 
             isPlaying = 1 - isPlaying;
-        
-      
+        else if (mouseY > height - bHeight + vOffset/2 && mouseY < height - bHeight + vOffset/2 + 2*bHeight/3 - vOffset &&  mouseX > 4 * bWidth + vOffset + (width - (4 * bWidth + vOffset))/2 && mouseX < width) 
+                {
+                    started = 0;
+                    sendMsgBool = 1;
+                    isPlaying = 0;
+                    sendMsg.style("width",JSON.stringify(width/4));
+                    sendMsg.position(width/2-sendMsg.width/2,height/2-sendMsg.height/2);
+                    sendMsg.show();
+                    
 
+                    //submitButton();
+
+        }
+      
+//rect(4 * bWidth + vOffset, height - bHeight + vOffset/2,(width - (4 * bWidth + vOffset))/2,2*bHeight/3 - vOffset);
 
     
     }
@@ -200,9 +270,15 @@ function mousePressed() {
             option -= 4;
 
         }
+    }
 }
 
+
+
+
 function mouseDragged() {
+   if (started){
+    console.log("dragged");
     if (mouseY<=5*height/6 && mouseX<=width-tWidth){
     var mousex = mouseX;
     var mousey = mouseY;
@@ -225,15 +301,74 @@ function mouseDragged() {
 
     //fill(lineColor[0], lineColor[1], lineColor[2]);
     //ellipse(cursorX, cursorY, lineThickness, lineThickness);
-}
+}}
+
+
 
 function draw() {
     background(255,123,0);
+    if (started && begin){
+        
+        if (width<0.95*windowWidth)
+            resizeCanvas(width+5,windowHeight,1);
+            //resizeCanvas(0.95*windowWidth,windowHeight,1);
+        
+        text2.style("z-index","1000");
+        text2.position(width,0);
+        text2.style("height",JSON.stringify(windowHeight));
+        slider.show();
+        start.hide();
+        inst.hide();
+        isPlaying=1;
+        option = 1;
+        extracanvas.clear();
+        begin = 0;
+        text2.show();
+
+    }
+
+    if (!started && !begin && !sendMsgBool){
+        text2.hide();
+        slider.hide();
+        start.show();
+        inst.show();
+        resizeCanvas(4*windowWidth/5, windowHeight,1);
+        begin = 1;
+        isPlaying=0;
+    }
+   
+    
+    //canv.hide();
+    
+    
+    if (started){
+        text2.position(width,0);
+
+        text2.style("height",JSON.stringify(windowHeight));
+         if (width<0.95*windowWidth)
+            resizeCanvas(width+5,windowHeight,1);
+        text2.style("width",JSON.stringify(windowWidth-width-20));
+    }
+    inst.position(width,0);
+    inst.style("height",JSON.stringify(height));
+    inst.style("width",JSON.stringify(0.2*width));
+    inst.style("border-style","dashed");
+    inst.style("border-color","black");
+
+    
+    slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
+
+    //start.position(width/2,5*height/6);
+    //showInitMessage()
+    //showParagraph();
+//(width - (4 * bWidth + vOffset))/2,2*bHeight/3 - vOffset)
     speed = slider.value();
 
-    if (mouseIsPressed && mouseY<=5*height/6 && mouseX<=width-tWidth) {
+    if (mouseIsPressed && mouseY<=5*height/6 && mouseX<=width-tWidth && started) {
         mouseDragged();
+
     }
+
     menuButtons();
     stroke(0,0,0);
     line(headX,0,headX,height-bHeight);
@@ -254,6 +389,7 @@ function draw() {
 
   }
   image(extracanvas,0,0);
+  image(messageCanvas,border,border);
 
 }
 
@@ -355,14 +491,15 @@ function menuButtons() {
     bHeight=height/6;
     tWidth=width/10;
     tHeight=height/10;
-    bWidth= (width - tWidth - vOffset)/4
-    stroke(0);
+    bWidth= (width - tWidth - 6 * vOffset)/4;
+    noStroke();
     strokeWeight(4);
     
     //paint bottom bar rectangles with white frame if they are selected
     fill(255,0,0);
     if (option == 1 || option == 5)
         stroke(255);
+
     rect(0,height - bHeight,bWidth,bHeight);
     icon1.resize(bHeight/2,bHeight/2);
     image(icon1, bWidth/2-icon1.width/2,height-bHeight/2-icon1.height/2);
@@ -465,26 +602,37 @@ function menuButtons() {
     
 
     //draw slider background and play button
+    fill(190);
+    rect(4 * bWidth, height - bHeight,width - 4 * bWidth ,bHeight);
+
     fill(0);
-    rect(width-tWidth, height - bHeight/3,tWidth,bHeight/3);
+    rect(4 * bWidth + vOffset, height - bHeight/3,width - (4 * bWidth + vOffset),bHeight/3);
     if (isPlaying)
         fill(255,0,0);
     else 
         fill(0,255,0);
 
-    rect(width-tWidth, height - bHeight,tWidth,2*bHeight/3);
+    rect(4 * bWidth + vOffset, height - bHeight + vOffset/2,(width - (4 * bWidth + vOffset))/2,2*bHeight/3 - vOffset);
 
     if (isPlaying) {  
         icon14.resize(tHeight/2,tHeight/2);
-        image(icon14, width-tWidth/2-icon14.width/2,height - bHeight + icon14.height/2);
+        image(icon14, 4*bWidth + vOffset+(width - (4 * bWidth + vOffset))/4-icon14.width/2,height - bHeight + icon14.height/2);
     }
     else {
         icon13.resize(tHeight/2,tHeight/2);
-        image(icon13, width-tWidth/2-icon13.width/2, height - bHeight + icon13.height/2);
+        image(icon13, 4*bWidth + vOffset+(width - (4 * bWidth + vOffset))/4-icon13.width/2, height - bHeight + icon13.height/2);
     }
 
+   /* SAVE ICON 
     icon15.resize(width/30,width/30);
-    image(icon15, 0,0);
+    image(icon15, 0,0);*/
+    
+    //SEND
+    fill(255);
+    rect(4 * bWidth + vOffset + (width - (4 * bWidth + vOffset))/2, height - bHeight + vOffset/2,(width - (4 * bWidth + vOffset))/2,2*bHeight/3 - vOffset);
+    icon16.resize(0.7*tHeight,0.7*tHeight);
+    image(icon16, 4 * bWidth + vOffset + (width - (4 * bWidth + vOffset))/2 + icon16.width/2, height - bHeight + vOffset/2 + icon16.height/6);
+
 
 }
 
@@ -531,5 +679,73 @@ function saveFile() {
 
     saveJSON(json, 'lion.json');
 
+
+}
+
+function makeDisplay(x) {
+  if (x) {
+    email = input.value();
+    picker = sel.value();
+    removeElements();
+  }
+  
+}
+
+function submitButton(){
+
+
+    var json = {};
+   
+    for (var i = 0; i < particles.length; i++){
+        json[i]={};
+        json[i].type=particles[i].type;
+        json[i].history=[];
+        for (var j = 0; j < particles[i].history.length; j++){
+            json[i].history[j]=[];
+            json[i].history[j][0]= particles[i].history[j].x;
+            json[i].history[j][1]= particles[i].history[j].y;
+
+        }
+    }
+    stringify = JSON.stringify(json);
+
+    var linkURL = "http://computingant.com/testing/index.html";
+    linkURL += "?email=" + "teodoro.dan@gmail.com";
+
+    Email.send({
+      SecureToken : "8f3f3aff-06d2-493b-aa98-1d135b73a48b",
+      To : "teodoro.dan@gmail.com",
+      // Bcc : 'kyle@computingant.com', 
+      From : "userTest@sonicDraw.com",
+      Subject : "user test",
+      Body : stringify,
+      
+    }).then(
+     message => alert('Your piece was succesfully sent! Thank you so much, and now, please go back to the form and complete the questionnaire')
+    ); 
+
+}
+
+function showInitMessage(){
+    messageCanvas.background(255);
+    messageCanvas.stroke(0,0,255);
+    messageCanvas.strokeWeight(13);
+    messageCanvas.rect(0,0,width-2*border,height-2*border);
+    messageCanvas.strokeWeight(13);
+    messageCanvas.strokeWeight(1);
+    messageCanvas.textSize(32);
+    messageCanvas.text("WELCOME!",10,50);
+
+}
+
+function showParagraph(){
+p = createP("In a first step, please explore our web-based tool called SonicDraw (link provided below) for at least 5 minutes. You are free to explore the interface and play with it. If you want to start again, just reload the page. We will ask you to:• USE YOUR LAPTOP (no mobile phones).• Remember to wear headphones.• Have fun! ");
+p.position(width,0);
+p.style("font-size","20px");
+p.style("width","20vw");
+p.style("padding","20px");
+p.style("font-family","courier");
+p.height=height/2;
+p.style("background-color","white");
 
 }
