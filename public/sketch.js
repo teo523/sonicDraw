@@ -247,7 +247,8 @@ function mousePressed() {
                     started = 0;
                     sendMsgBool = 1;
                     isPlaying = 0;
-                    sendMsg.style("width",JSON.stringify(width/4));
+                   
+                    sendMsg.style("width",JSON.stringify(windowWidth/3));
                     sendMsg.position(width/2-sendMsg.width/2,height/2-sendMsg.height/2);
                     sendMsg.show();
                     
@@ -700,17 +701,17 @@ function submitButton(){
 
     var json = {};
     
-    json[0]=inp.value();
-    json[1]=speed;
+    json["Name"]=inp.value();
+    json["Speed"]=speed;
 
     for (var i = 0; i < particles.length; i++){
-        json[i+2]={};
-        json[i+2].type=particles[i].type;
-        json[i+2].history=[];
+        json[i]={};
+        json[i].type=particles[i].type;
+        json[i].history=[];
         for (var j = 0; j < particles[i].history.length; j++){
-            json[i+2].history[j]=[];
-            json[i+2].history[j][0]= particles[i].history[j].x;
-            json[i+2].history[j][1]= particles[i].history[j].y;
+            json[i].history[j]=[];
+            json[i].history[j][0]= particles[i].history[j].x;
+            json[i].history[j][1]= particles[i].history[j].y;
 
         }
     }
