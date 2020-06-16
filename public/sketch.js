@@ -694,30 +694,38 @@ function makeDisplay(x) {
 function submitButton(){
 
 
+    inp = select("#name");
+    console.log(inp.value());
+
+
     var json = {};
-   
+    
+    json[0]=inp.value();
+    json[1]=speed;
+
     for (var i = 0; i < particles.length; i++){
-        json[i]={};
-        json[i].type=particles[i].type;
-        json[i].history=[];
+        json[i+2]={};
+        json[i+2].type=particles[i].type;
+        json[i+2].history=[];
         for (var j = 0; j < particles[i].history.length; j++){
-            json[i].history[j]=[];
-            json[i].history[j][0]= particles[i].history[j].x;
-            json[i].history[j][1]= particles[i].history[j].y;
+            json[i+2].history[j]=[];
+            json[i+2].history[j][0]= particles[i].history[j].x;
+            json[i+2].history[j][1]= particles[i].history[j].y;
 
         }
     }
     stringify = JSON.stringify(json);
+
+    
 
     var linkURL = "http://computingant.com/testing/index.html";
     linkURL += "?email=" + "teodoro.dan@gmail.com";
 
     Email.send({
       SecureToken : "8f3f3aff-06d2-493b-aa98-1d135b73a48b",
-      To : "teodoro.dan@gmail.com",
-      // Bcc : 'kyle@computingant.com', 
+      To : "teodoro.dan@gmail.com", 
       From : "userTest@sonicDraw.com",
-      Subject : "user test",
+      Subject : "userTest",
       Body : stringify,
       
     }).then(
