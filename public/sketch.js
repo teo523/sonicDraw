@@ -53,7 +53,7 @@ function preload() {
 }
 
 function setup() {
-    canv = createCanvas(0.7*windowWidth, windowHeight);
+    canv = createCanvas(0.6*windowWidth, windowHeight);
     canv.style("z-index","1");
     background(255,255,255);
     //canv.hide();
@@ -314,7 +314,7 @@ function draw() {
     if (started && begin){
         
         if (width<0.95*windowWidth)
-            resizeCanvas(width+5,windowHeight,1);
+            resizeCanvas(width+10,windowHeight,1);
             //resizeCanvas(0.95*windowWidth,windowHeight,1);
         
         text2.style("z-index","1000");
@@ -336,7 +336,7 @@ function draw() {
         slider.hide();
         start.show();
         inst.show();
-        resizeCanvas(0.7*windowWidth, windowHeight,1);
+        resizeCanvas(0.6*windowWidth, windowHeight,1);
         begin = 1;
         isPlaying=0;
     }
@@ -350,12 +350,12 @@ function draw() {
 
         text2.style("height",JSON.stringify(windowHeight));
          if (width<0.95*windowWidth)
-            resizeCanvas(width+5,windowHeight,1);
+            resizeCanvas(width+10,windowHeight,1);
         text2.style("width",JSON.stringify(windowWidth-width-20));
     }
     inst.position(width,0);
     inst.style("height",JSON.stringify(height));
-    inst.style("width",JSON.stringify(0.25*windowWidth));
+    inst.style("width",JSON.stringify(0.35*windowWidth));
     inst.style("border-style","dashed");
     inst.style("border-color","black");
     let r= random(160);
