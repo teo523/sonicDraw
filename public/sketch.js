@@ -59,11 +59,21 @@ function setup() {
     //canv.hide();
     makeDisplay(false);
     
+    inst = select("#inst");
+    inst.position(width,0);
+    inst.style("height",JSON.stringify(height));
+    inst.style("width",JSON.stringify(0.35*windowWidth));
+    inst.style("border-style","dashed");
+    inst.style("border-color","black");
+    
     sendMsg = select("#sendMsg");
     sendMsg.hide();
 
     sendBtn = select("#sendBtn");
     sendBtn.mousePressed(hideSendMessage);
+
+    sendCancelBtn = select("#sendCancelBtn");
+    sendCancelBtn.mouseClicked(cancelSendMessage);
 
     vOffset = (height - bHeight - 8*tHeight)/2;
     bHeight=height/6;
@@ -83,8 +93,7 @@ function setup() {
      slider.style("background", "red");
     slider.hide();
 
-    inst = select("#inst");
-   
+    
 
     
     start = select("#start");
@@ -133,6 +142,14 @@ function hideSendMessage() {
     else {
     sendMsg.hide();
     submitButton();}
+}
+
+function cancelSendMessage() {
+    
+    sendMsg.hide();
+    sendMsgBool = 0;
+    started = 1;
+
 }
 
 function startAll() {
@@ -369,6 +386,9 @@ function draw() {
     let b= random(160);
     let newColor = "rgb("+r+","+g+","+b+")";
     start.style("background-color",newColor);
+
+    
+    
 
     
     slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
