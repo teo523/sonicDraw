@@ -125,8 +125,14 @@ function unhighlight(){
 }
 
 function hideSendMessage() {
+    
+    inp = select("#name");
+    if (inp.value()==""){
+        alert("Please write a name or a nickname")
+    }
+    else {
     sendMsg.hide();
-    submitButton();
+    submitButton();}
 }
 
 function startAll() {
@@ -708,7 +714,6 @@ function submitButton(){
 
 
     inp = select("#name");
-    console.log(inp.value());
 
 
     var json = {};
