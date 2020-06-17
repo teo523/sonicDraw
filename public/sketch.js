@@ -79,7 +79,8 @@ function setup() {
 
     slider = createSlider(1, 50, 10);
     slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
-    slider.style('width', '8vw');
+    slider.style("width", "8vw");
+     slider.style("background", "red");
     slider.hide();
 
     inst = select("#inst");
@@ -398,7 +399,11 @@ function draw() {
   }
   image(extracanvas,0,0);
   image(messageCanvas,border,border);
-
+if (!started)
+{rect()
+fill("rgba(10,10,10,0.5)");
+rect(0,0,width,height);
+}
 }
 
 
