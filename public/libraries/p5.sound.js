@@ -1,4 +1,4 @@
-/** [p5.sound]  Version: 0.3.12 - 2020-01-06 */ 
+/** [p5.sound]  Version: X - 2020-23-06, changed to old definition of amp (V 0.3.0) */ 
  /**
  *  <p>p5.sound extends p5 with <a href="http://caniuse.com/audio-api"
  *  target="_blank">Web Audio</a> functionality including audio input,
