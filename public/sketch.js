@@ -520,7 +520,7 @@ var Playing = 0;
             else 
                 filters[i].freq(f);
 
-            osc[i].amp(map(particles[i].history[j].z,1,10,0.01,0.2)/10,0.01);
+            osc[i].amp(map(particles[i].history[j].z,1,10,0.01,0.2),0.01);
           
            if (isOn[i] == 0){
             
