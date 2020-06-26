@@ -29,6 +29,7 @@ var started = 0;
 var inst;
 var begin = 1;
 var sendMsgBool = 0;
+var a= 0;
 
 
 function preload() {
@@ -54,11 +55,10 @@ function preload() {
 
 function setup() {
     canv = createCanvas(0.6*windowWidth, windowHeight);
-    canv.style("z-index","1");
+    //canv.style("z-index","1");
     background(255,255,255);
     //canv.hide();
     makeDisplay(false);
-    
     inst = select("#inst");
     inst.position(width,0);
     inst.style("height",JSON.stringify(height));
@@ -81,10 +81,10 @@ function setup() {
     tHeight=height/10;
     bWidth= (width - tWidth - 6 * vOffset)/4;
 
-    extracanvas = createGraphics(windowWidth-tWidth, windowHeight-bHeight);
+    extracanvas = createGraphics(0.6*windowWidth, windowHeight);
     extracanvas.clear();
 
-    messageCanvas = createGraphics(windowWidth-2*border, windowHeight-2*border);
+    //messageCanvas = createGraphics(windowWidth-2*border, windowHeight-2*border);
     
 
     slider = createSlider(1, 50, 10);
@@ -274,7 +274,7 @@ function mousePressed() {
                    
                     sendMsg.style("width",JSON.stringify(floor(width/3)));
                     
-                    console.log(JSON.stringify(width/3));
+                    //console.log(JSON.stringify(width/3));
                     sendMsg.position(width/2-sendMsg.width/2,height/2-sendMsg.height/2);
                     sendMsg.show();
                     
@@ -305,7 +305,7 @@ function mousePressed() {
 
 function mouseDragged() {
    if (started){
-    console.log("dragged");
+   
     if (mouseY<=5*height/6 && mouseX<=width-tWidth){
     var mousex = mouseX;
     var mousey = mouseY;
@@ -334,10 +334,18 @@ function mouseDragged() {
 
 function draw() {
     background(255,123,0);
+
+    //a= a + frameRate();
+    //if (random() < 0.1)
+    //console.log("frameRate: " + frameRate() + " , average: " + a/frameCount);
     if (started && begin){
         
-        if (width<0.95*windowWidth)
+        if (width<0.95*windowWidth) {
             resizeCanvas(width+10,windowHeight,1);
+            extracanvas.size(width+10,windowHeight,1);
+ 
+
+        }
             //resizeCanvas(0.95*windowWidth,windowHeight,1);
         
         text2.style("z-index","1000");
@@ -360,6 +368,7 @@ function draw() {
         start.show();
         inst.show();
         resizeCanvas(0.6*windowWidth, windowHeight,1);
+        extracanvas.size(0.6*windowWidth, windowHeight,1);
         begin = 1;
         isPlaying=0;
     }
@@ -372,8 +381,10 @@ function draw() {
         text2.position(width,0);
 
         text2.style("height",JSON.stringify(windowHeight));
-         if (width<0.95*windowWidth)
+         if (width<0.95*windowWidth){      
             resizeCanvas(width+10,windowHeight,1);
+            extracanvas.size(extracanvas.width+10,windowHeight,1);
+            }
         text2.style("width",JSON.stringify(windowWidth-width-20));
     }
     inst.position(width,0);
@@ -424,7 +435,7 @@ function draw() {
 
   }
   image(extracanvas,0,0);
-  image(messageCanvas,border,border);
+  //image(messageCanvas,border,border);
 if (!started)
 {rect()
 fill("rgba(10,10,10,0.5)");
@@ -494,9 +505,10 @@ function Particle(x, y, z,option) {
 function playOscillators() {
 
 for (var i=0;i<particles.length;i++) {
+      //console.log(osc[i].getAmp());
 var Playing = 0;
     for (var j=0;j<particles[i].history.length;j++) {
-        if (abs(particles[i].history[j].x-headX)<5){
+        if (abs(particles[i].history[j].x-headX)< 5){
             Playing = 1;
             let x = 5 - particles[i].history[j].y/(height/6);
             let f = 50*pow(2,x);
@@ -508,8 +520,8 @@ var Playing = 0;
             else 
                 filters[i].freq(f);
 
-            osc[i].amp(map(particles[i].history[j].z,1,10,0.01,0.2),0.01);
-            
+            osc[i].amp(map(particles[i].history[j].z,1,10,0.01,0.2)/10,0.01);
+          
            if (isOn[i] == 0){
             
             osc[i].start();  
@@ -521,7 +533,10 @@ var Playing = 0;
 if (isOn[i]==1 && Playing==0){
     osc[i].amp(0,0.01);
     isOn[i] = 0;
+    osc[i].stop(0.02);
 }
+//if (osc[i].amp().value>0)
+//console.log(osc[i].amp().value);
 
 }
 }
@@ -683,7 +698,8 @@ function airbrush() {
     let r3 = random(cursorX - spread, cursorX + spread);
     let r4 = random(cursorY - spread, cursorY + spread);
     extracanvas.noStroke();
-
+  
+     
     if (option == 5)
         extracanvas.fill(255,0,0);
     if (option == 6)
@@ -772,26 +788,5 @@ function submitButton(){
 
 }
 
-function showInitMessage(){
-    messageCanvas.background(255);
-    messageCanvas.stroke(0,0,255);
-    messageCanvas.strokeWeight(13);
-    messageCanvas.rect(0,0,width-2*border,height-2*border);
-    messageCanvas.strokeWeight(13);
-    messageCanvas.strokeWeight(1);
-    messageCanvas.textSize(32);
-    messageCanvas.text("WELCOME!",10,50);
 
-}
 
-function showParagraph(){
-p = createP("In a first step, please explore our web-based tool called SonicDraw (link provided below) for at least 5 minutes. You are free to explore the interface and play with it. If you want to start again, just reload the page. We will ask you to:• USE YOUR LAPTOP (no mobile phones).• Remember to wear headphones.• Have fun! ");
-p.position(width,0);
-p.style("font-size","20px");
-p.style("width","20vw");
-p.style("padding","20px");
-p.style("font-family","courier");
-p.height=height/2;
-p.style("background-color","white");
-
-}

@@ -1562,21 +1562,18 @@ var __WEBPACK_AMD_DEFINE_RESULT__;
 
   p5.Oscillator.prototype.amp = function (vol, rampTime, tFromNow) {
     var self = this;
+
     if (typeof vol === 'number') {
       var rampTime = rampTime || 0;
       var tFromNow = tFromNow || 0;
       var now = p5sound.audiocontext.currentTime;
-      var currentVol = this.output.gain.value;
-      this.output.gain.cancelScheduledValues(now);
-      this.output.gain.linearRampToValueAtTime(currentVol, now + tFromNow);
       this.output.gain.linearRampToValueAtTime(vol, now + tFromNow + rampTime);
     } else if (vol) {
       vol.connect(self.output.gain);
     } else {
-      // return the Gain Node
       return this.output.gain;
     }
-  };
+  }; 
 
 
   p5.Oscillator.prototype.fade = p5.Oscillator.prototype.amp;

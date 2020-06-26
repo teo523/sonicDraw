@@ -1562,14 +1562,22 @@ var __WEBPACK_AMD_DEFINE_RESULT__;
 
   p5.Oscillator.prototype.amp = function (vol, rampTime, tFromNow) {
     var self = this;
+    //console.log("entered");
     if (typeof vol === 'number') {
       var rampTime = rampTime || 0;
       var tFromNow = tFromNow || 0;
       var now = p5sound.audiocontext.currentTime;
       var currentVol = this.output.gain.value;
+      /*console.log("currentVol: " + currentVol);
+      console.log("vol: " + vol);
+      console.log("now + tFromNow: " + now + tFromNow);
+      console.log("now + tFromNow + rampTime: " + (now + rampTime);*/
+      //console.log(p5sound.audiocontext.currentTime);
+
       this.output.gain.cancelScheduledValues(now);
       this.output.gain.linearRampToValueAtTime(currentVol, now + tFromNow);
       this.output.gain.linearRampToValueAtTime(vol, now + tFromNow + rampTime);
+      
     } else if (vol) {
       vol.connect(self.output.gain);
     } else {
