@@ -58,7 +58,7 @@ function setup() {
     //canv.style("z-index","1");
     background(255,255,255);
     //canv.hide();
-    makeDisplay(false);
+    //makeDisplay(false);
     inst = select("#inst");
     inst.position(width,0);
     inst.style("height",JSON.stringify(height));
@@ -737,14 +737,7 @@ function saveFile() {
 
 }
 
-function makeDisplay(x) {
-  if (x) {
-    email = input.value();
-    picker = sel.value();
-    removeElements();
-  }
-  
-}
+
 
 function submitButton(){
 
@@ -772,12 +765,11 @@ function submitButton(){
 
     
 
-    var linkURL = "http://computingant.com/testing/index.html";
-    linkURL += "?email=" + "teodoro.dan@gmail.com";
+    
 
-    Email.send({
+     Email.send({
       SecureToken : "8f3f3aff-06d2-493b-aa98-1d135b73a48b",
-      To : "teodoro.dan@gmail.com", 
+      To : "teousertest@outlook.com", 
       From : "userTest@sonicDraw.com",
       Subject : "userTest",
       Body : stringify,
