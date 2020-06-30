@@ -31,7 +31,8 @@ var begin = 1;
 var sendMsgBool = 0;
 var a= 0;
 var database;
-
+var saveCnv = 0;
+var author = "unknown";
 
 
 function preload() {
@@ -162,6 +163,9 @@ function hideSendMessage() {
     }
     else {
     sendMsg.hide();
+    author = inp.value();
+    saveCnv = 1;
+   
     submitButton();}
 }
 
@@ -457,6 +461,10 @@ function draw() {
   }
   image(extracanvas,0,0);
   //image(messageCanvas,border,border);
+ if (saveCnv){
+ 	//saveCanvas(author,"png");
+ 	saveCnv = 0;
+ }
 if (!started)
 {rect()
 fill("rgba(10,10,10,0.5)");
@@ -751,7 +759,7 @@ function saveFile() {
     }
     
     // new  JSON Object
-
+   
 
     //saveJSON(json, 'lion.json');
     
@@ -771,6 +779,7 @@ function submitButton(){
     
     json["Name"]=inp.value();
     json["Speed"]=speed;
+    json["date"]=year()+"-" + month()+"-"+day()+" - "+hour()+":"+minute()+":"+second();
 
     for (var i = 0; i < particles.length; i++){
         json[i]={};
@@ -788,6 +797,7 @@ function submitButton(){
     var ref = database.ref("sketches");
 
     ref.push(json);
+
 
     alert("Thank you! your piece was submitted successfully! Now you can go back to the form")
     
