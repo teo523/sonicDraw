@@ -779,6 +779,10 @@ function submitButton(){
     json["Name"]=inp.value();
     json["Speed"]=speed;
     json["date"]=year()+"-" + month()+"-"+day()+" - "+hour()+":"+minute()+":"+second();
+    json["width"]=width;
+    json["height"]=height;
+    json["maxX"]=width - tWidth;
+    json["maxY"]=height - bHeight;
 
     for (var i = 0; i < particles.length; i++){
         json[i]={};
