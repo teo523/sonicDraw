@@ -138,7 +138,7 @@ function setup() {
 	// Initialize Firebase
 	firebase.initializeApp(firebaseConfig);
 	firebase.analytics();
-	console.log(firebase);
+
 
 	database = firebase.database();
 }
@@ -359,7 +359,6 @@ function mouseDragged() {
 
 function draw() {
     background(255,123,0);
-    console.log(pixelDensity());
     //a= a + frameRate();
     //if (random() < 0.1)
     //console.log("frameRate: " + frameRate() + " , average: " + a/frameCount);
