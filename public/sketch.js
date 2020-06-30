@@ -30,6 +30,8 @@ var inst;
 var begin = 1;
 var sendMsgBool = 0;
 var a= 0;
+var database;
+
 
 
 function preload() {
@@ -54,6 +56,8 @@ function preload() {
 }
 
 function setup() {
+
+
     canv = createCanvas(0.6*windowWidth, windowHeight);
     //canv.style("z-index","1");
     background(255,255,255);
@@ -119,6 +123,23 @@ function setup() {
     //socket.emit('changeSlider', data);
 
     //socket.on('mouse', newDrawing);
+
+    	var firebaseConfig = {
+	    apiKey: "AIzaSyDkmCULpFe40NfeL6zddWpQB_SR4NmSDvU",
+	    authDomain: "sonicdrawdb.firebaseapp.com",
+	    databaseURL: "https://sonicdrawdb.firebaseio.com",
+	    projectId: "sonicdrawdb",
+	    storageBucket: "sonicdrawdb.appspot.com",
+	    messagingSenderId: "1035139513533",
+	    appId: "1:1035139513533:web:c8aca8da2d1189d540cbd4",
+	    measurementId: "G-CBDCBE2KPH"
+	  };
+	// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
+	firebase.analytics();
+	console.log(firebase);
+
+	database = firebase.database();
 }
 
 function newDrawing(data) {
@@ -159,8 +180,7 @@ function startAll() {
 function mousePressed() {
 
     if (started){
-    if (mouseY<=width/30 && mouseX<width/30)
-        saveFile();
+    
 
     //if we are in the drawing rectangle, then create an osc
     if(mouseY<=5*height/6 && mouseX<width-tWidth){
@@ -732,7 +752,8 @@ function saveFile() {
     // new  JSON Object
 
 
-    saveJSON(json, 'lion.json');
+    //saveJSON(json, 'lion.json');
+    
 
 
 }
@@ -763,20 +784,13 @@ function submitButton(){
     }
     stringify = JSON.stringify(json);
 
+    var ref = database.ref("sketches");
+
+    ref.push(json);
+
+    alert("Thank you! your piece was submitted successfully! Now you can go back to the form")
     
 
-    
-
-     Email.send({
-      SecureToken : "8f3f3aff-06d2-493b-aa98-1d135b73a48b",
-      To : "teousertest@outlook.com", 
-      From : "userTest@sonicDraw.com",
-      Subject : "userTest",
-      Body : stringify,
-      
-    }).then(
-     message => alert('Your piece was succesfully sent! Thank you so much, and now, please go back to the form and complete the questionnaire')
-    ); 
 
 }
 
