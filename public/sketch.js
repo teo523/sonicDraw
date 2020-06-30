@@ -175,6 +175,7 @@ function cancelSendMessage() {
 
 function startAll() {
     started = 1 - started;
+    window.scrollTo(0, 0);
 }
 
 function mousePressed() {
