@@ -792,6 +792,7 @@ function submitButton(){
             json[i].history[j]=[];
             json[i].history[j][0]= particles[i].history[j].x;
             json[i].history[j][1]= particles[i].history[j].y;
+	    json[i].history[j][2]= particles[i].history[j].z;
 
         }
     }
