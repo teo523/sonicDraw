@@ -1,0 +1,12 @@
+{
+  "name": "public",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gallery.js",
+  "scripts": {
+    "build": "rm -rf ./dist/* && cp ./index.html  ./dist/index.html && cp ./sketch.js ./dist/sketch.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
