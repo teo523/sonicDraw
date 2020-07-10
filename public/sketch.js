@@ -25,15 +25,17 @@ var email;
 var picker;
 var border = 90;
 var canv;
-var started = 0;
-var inst;
+var started = 1;
 var begin = 1;
 var sendMsgBool = 0;
 var a= 0;
 var database;
+var storage;
 var saveCnv = 0;
 var author = "unknown";
-
+var drawFile;
+var ex;
+var nm;
 
 function preload() {
     icon1 = loadImage('images/icon1.png');
@@ -59,18 +61,17 @@ function preload() {
 function setup() {
 
 
-    canv = createCanvas(0.6*windowWidth, windowHeight);
+    canv = createCanvas(0.95*windowWidth, windowHeight);
     //canv.style("z-index","1");
     background(255,255,255);
     //canv.hide();
     //makeDisplay(false);
-    inst = select("#inst");
-    inst.position(width,0);
-    inst.style("height",JSON.stringify(height));
-    inst.style("width",JSON.stringify(0.35*windowWidth));
-    inst.style("border-style","dashed");
-    inst.style("border-color","black");
     
+    saveC = createButton("save canvas");
+    //saveC.mousePressed(sendCanvas);
+    saveC.position(20,20);
+   
+
     sendMsg = select("#sendMsg");
     sendMsg.hide();
 
@@ -86,7 +87,7 @@ function setup() {
     tHeight=height/10;
     bWidth= (width - tWidth - 6 * vOffset)/4;
 
-    extracanvas = createGraphics(0.6*windowWidth, windowHeight);
+    extracanvas = createGraphics(0.95*windowWidth, windowHeight);
     extracanvas.clear();
 
     //messageCanvas = createGraphics(windowWidth-2*border, windowHeight-2*border);
@@ -96,26 +97,15 @@ function setup() {
     slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
     slider.style("width", "8vw");
      slider.style("background", "red");
-    slider.hide();
-
     
 
-    
-    start = select("#start");
-    start.style("width","13vw");
-    //start.position(width/2,2*height/3);
-    start.style("border-style","solid");
-    start.style("border-color","black");
-    start.style("background-color","black");
-    start.mousePressed(startAll);
-
-     text2 = select("#text2");
+   /* text2 = select("#text2");
     text2.position(width,0);
     text2.style("height",JSON.stringify(windowHeight));
-    text2.hide();
     text2.mouseOver(highlight);
     text2.mouseOut(unhighlight);
     text2.mouseClicked(startAll);
+    text2.drop(loadFile,postProcess);*/
    
     var data = {
         thickness: lineThickness,
@@ -124,7 +114,7 @@ function setup() {
     //socket.emit('changeSlider', data);
 
     //socket.on('mouse', newDrawing);
-
+/*
     	var firebaseConfig = {
 	    apiKey: "AIzaSyDkmCULpFe40NfeL6zddWpQB_SR4NmSDvU",
 	    authDomain: "sonicdrawdb.firebaseapp.com",
@@ -139,11 +129,20 @@ function setup() {
 	firebase.initializeApp(firebaseConfig);
 	firebase.analytics();
 
-
+    
 	database = firebase.database();
+     
+	var ref = database.ref("sketches");
+	//ref.on("value", gotData, errData);
+*/
+
 }
 
-function newDrawing(data) {
+
+
+
+
+/*function newDrawing(data) {
     noStroke();
     //fill(data.color[0], data.color[1], data.color[2]);
 }
@@ -154,7 +153,7 @@ function highlight(){
 function unhighlight(){
     text2.style("background-color","white");
 }
-
+*/
 function hideSendMessage() {
     
     inp = select("#name");
@@ -362,35 +361,11 @@ function draw() {
     //a= a + frameRate();
     //if (random() < 0.1)
     //console.log("frameRate: " + frameRate() + " , average: " + a/frameCount);
-    if (started && begin){
-        
-        if (width<0.95*windowWidth) {
-            resizeCanvas(width+10,windowHeight,1);
-            extracanvas.size(width+10,windowHeight,1);
- 
-
-        }
-            //resizeCanvas(0.95*windowWidth,windowHeight,1);
-        
-        text2.style("z-index","1000");
-        text2.position(width,0);
-        text2.style("height",JSON.stringify(windowHeight));
-        slider.show();
-        start.hide();
-        inst.hide();
-        isPlaying=1;
-        option = 1;
-        extracanvas.clear();
-        begin = 0;
-        text2.show();
-
-    }
+    
 
     if (!started && !begin && !sendMsgBool){
         text2.hide();
         slider.hide();
-        start.show();
-        inst.show();
         resizeCanvas(0.6*windowWidth, windowHeight,1);
         extracanvas.size(0.6*windowWidth, windowHeight,1);
         begin = 1;
@@ -400,30 +375,7 @@ function draw() {
     
     //canv.hide();
     
-    
-    if (started){
-        text2.position(width,0);
-
-        text2.style("height",JSON.stringify(windowHeight));
-         if (width<0.95*windowWidth){      
-            resizeCanvas(width+10,windowHeight,1);
-            extracanvas.size(extracanvas.width+10,windowHeight,1);
-            }
-        text2.style("width",JSON.stringify(windowWidth-width-20));
-    }
-    inst.position(width,0);
-    inst.style("height",JSON.stringify(height));
-    inst.style("width",JSON.stringify(0.35*windowWidth));
-    inst.style("border-style","dashed");
-    inst.style("border-color","black");
-    let r= random(160);
-    let g= random(160);
-    let b= random(160);
-    let newColor = "rgb("+r+","+g+","+b+")";
-    start.style("background-color",newColor);
-
-    
-    
+   
 
     
     slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
@@ -561,7 +513,7 @@ var Playing = 0;
 if (isOn[i]==1 && Playing==0){
     osc[i].amp(0,0.01);
     isOn[i] = 0;
-    osc[i].stop(0.02);
+    //osc[i].stop(0.02);
 }
 //if (osc[i].amp().value>0)
 //console.log(osc[i].amp().value);
@@ -809,4 +761,155 @@ function submitButton(){
 }
 
 
+/*
+function gotData(data) {
+    //console.log(data.val());
+    var sketches = data.val();
+    var keys = Object.keys(sketches);
+    ex = sketches[keys[21]];
+    delete ex["date"];
+    var mX = ex["maxX"];
+    var mY = ex["maxX"];
+    var wd = ex["width"];
+    var ht = ex["height"];
+    nm = ex["Name"];
+    var spd = ex["Speed"];
+    delete ex["maxX"];
+    delete ex["maxY"];
+    delete ex["width"];
+    delete ex["height"];
+    delete ex["Name"];
+    delete ex["Speed"];
 
+    
+    //console.log(ex);
+    //console.log(Object.keys(ex).length);
+
+    for (var i = 0; i < Object.keys(ex).length; i++){
+
+
+        console.log(i);
+        if (ex[i].history != undefined){
+        console.log(ex[i].history);
+       
+       //Create a new particle object and an oscillator epending on the selected brush
+        particles.push(new Particle(ex[i].history[0][0]*width/wd, ex[i].history[0][1]*height*ht,  ex[i].history[0][2] + 10, ex[i].type));
+        option = ex[i].type;
+
+
+
+        
+        if (option < 7)
+             filters.push(new p5.LowPass());
+        
+        
+        else
+            filters.push(new p5.HighPass());
+        if (option == 1){
+            osc.push(new p5.Oscillator('sine'));
+            lineColor.push([255,0,0]);
+        }
+        else if (option == 2){
+            osc.push(new p5.Oscillator('sawtooth'));
+            lineColor.push([180,0,60]);
+        }
+        else if (option == 3){
+            osc.push(new p5.Oscillator('triangle'));
+            lineColor.push([60,0,180]);
+        }
+        else if (option == 4){
+            osc.push(new p5.Oscillator('square'));
+            lineColor.push([0,0,255]);
+        }
+        else if (option == 5){
+            
+            filters[filters.length-1].freq(100);
+            filters[filters.length-1].res(5);
+            osc.push(new p5.Noise());
+            osc[osc.length-1].disconnect();
+            osc[osc.length-1].connect(filters[filters.length-1]);
+            lineColor.push([255,0,0]);
+        }
+        else if (option == 6){
+                
+            filters[filters.length-1].freq(100);
+            filters[filters.length-1].res(20);
+            osc.push(new p5.Noise('pink'));
+            osc[osc.length-1].disconnect();
+            osc[osc.length-1].connect(filters[filters.length-1]);
+            lineColor.push([180,0,60]);
+        }
+        else if (option == 7){
+            
+            filters[filters.length-1].freq(100);
+            filters[filters.length-1].res(5);
+            osc.push(new p5.Noise('brown'));
+            osc[osc.length-1].disconnect();
+            osc[osc.length-1].connect(filters[filters.length-1]);
+            lineColor.push([60,0,180]);
+        }
+        else if (option == 8){
+            
+            filters[filters.length-1].freq(100);
+            filters[filters.length-1].res(30);
+            osc.push(new p5.Noise());
+            osc[osc.length-1].disconnect();
+            osc[osc.length-1].connect(filters[filters.length-1]);
+            lineColor.push([0,0,255]);
+        }    
+        //starts in off mode
+        isOn.push(0); 
+        for (var j=0;j<ex[i].history.length;j++) {
+        var v = createVector(ex[i].history[j][0]*width/wd, ex[i].history[j][1]*height/ht, ex[i].history[j][2]);
+        if (ex[i].type > 4) {
+               let max = 3* (20-11);
+            let sz = random(5);
+            let spread = random(max);
+            let r3 = random(ex[i].history[j][0]*width/wd - spread, ex[i].history[j][0]*width/wd + spread);
+            let r4 = random(ex[i].history[j][1]*height/ht - spread, ex[i].history[j][1]*height/ht + spread);
+            extracanvas.noStroke();
+  
+     
+            if (option == 5)
+                extracanvas.fill(255,0,0);
+            if (option == 6)
+                extracanvas.fill(180,0,60);
+            if (option == 7)
+                extracanvas.fill(60,0,180);
+            if (option == 8)
+                extracanvas.fill(0,0,255);
+            extracanvas.ellipse(r3, r4, sz, sz);
+            }
+        particles[particles.length-1].history.push(v);  
+}
+    }
+}
+
+}
+
+
+
+
+function errData(err){
+    console.log(err);
+}
+
+function sendCanvas(){
+var storageRef = firebase.storage().ref();
+var childRef = storageRef.child('ex.jpg');
+var canvas0 = document.getElementById('defaultCanvas0');
+
+canvas0.toBlob(function(blob) {
+  var newImg = document.createElement('img'),
+      url = URL.createObjectURL(blob);
+       // use the Blob or File API
+childRef.put(blob).then(function(snapshot) {
+  console.log('Uploaded a blob or file!');
+});
+console.log(url);
+});
+
+
+
+}
+*/
