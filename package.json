@@ -4,7 +4,7 @@
   "description": "",
   "main": "gallery.js",
   "scripts": {
-    "build": "rm -rf ./dist/* && cp ./index.html  ./dist/index.html && cp ./sketch.js ./dist/sketch.js && cp -r ./libraries ./dist/libraries && cp -r ./images ./dist/images && cp styles.css ./dist/styles.css "
+    "build": "rm -rf ./dist/* && cp ./index.html  ./dist/index.html && cp ./sketch.js ./dist/sketch.js && cp -r ./libraries ./dist/libraries && cp -r ./images ./dist/images && cp style.css ./dist/style.css "
   },
   "keywords": [],
   "author": "",
