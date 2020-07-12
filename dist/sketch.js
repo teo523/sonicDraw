@@ -72,6 +72,9 @@ function setup() {
     saveC = createButton("save canvas");
     saveC.mousePressed(sendCanvas);
     saveC.position(20,20);
+    saveC.hide();
+
+    
    
 
     sendMsg = select("#sendMsg");
@@ -768,7 +771,7 @@ function gotData(data) {
     //console.log(data.val());
     var sketches = data.val();
     keys = Object.keys(sketches);
-    ex = sketches[keys[nn]];
+    ex = sketches[localStorage.selDrawing];
     delete ex["date"];
     var mX = ex["maxX"];
     var mY = ex["maxX"];
