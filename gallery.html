@@ -48,7 +48,7 @@
       
     </tbody>
   </table>
-</body>
+
 
 
 <!--<p id="text2" style="writing-mode: tb-rl; font-family: courier; font-size: 2vw; padding: 10px 0px 0px 2px; margin: 5px; border-style: dashed; border-color: black; text-align: center; vertical-align: bottom;">    D R O P - F I L E</p>-->
@@ -70,18 +70,48 @@
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 var storageRef = firebase.storage().ref(); 
+var database = firebase.database();
+var ref = database.ref("sketches");
+var sketches;
+var keys = [];
+var y = [];
+var x, j;
+var t = 1;
+ref.on("value", gotData, errData);
+
+
+function errData(err){
+    console.log(err);
+} 
+
+function gotData(data) {
+    //console.log(data.val());
+    sketches = data.val();
+
+
+   
+
 
 $('#List').find('tbody').html('');
 var i = 0;
+
 storageRef.listAll().then(function(result){
  result.items.forEach(function(imageRef){
 
 //console.log(imageRef.toString());
-i++;
+keys.push(String(imageRef).replace("gs://sonicdrawdb.appspot.com/","").replace(".jpg",""))
 displayImage(i,imageRef);
+i++;
+
+
  });
 
 });
+
+setTimeout(storeSelection,2000);
+
+
+}
 
 function displayImage(row, images){
   images.getDownloadURL().then(function(url){
@@ -89,17 +119,37 @@ function displayImage(row, images){
   let new_html = '';
   new_html += '<tr>';
   new_html += '<td>';
-  new_html += row;
+  new_html += String(sketches[keys[row]].Name);
   new_html += '</td>';
   new_html += '<td>';
-  new_html += '<img src="'+url+'" width ="200vw">'; 
+  new_html += '<a href= "./draw.html">';
+  new_html += '<img src="'+url+'" alt= '+ keys[row] + ' class="drawings" width ="200vw">'; 
+  new_html += '</a>';
   new_html += '</td>';
   new_html += '</tr>';
   $('#List').find('tbody').append(new_html);
   });
 
+
+
 }
 
-</script>
+function storeSelection() {
 
+  x = document.querySelectorAll(".drawings");
+  for (j = 0; j < x.length; j++) 
+      y[j]= x[j].alt;
+  var k = 0;
+  for (const elem of x) {
+    elem.addEventListener('click',function(){
+      localStorage.setItem('selDrawing',String(elem.alt));
+      k++;
+    });
+  }
+  console.log("stored");
+}
+
+
+</script>
+</body>
 </html>

@@ -1,0 +1,343 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"cnv",
+				"canv"
+			],
+			[
+				"max",
+				"maxX"
+			],
+			[
+				"resi",
+				"resizeCanvas"
+			],
+			[
+				"e",
+				"extracanvas"
+			],
+			[
+				"send",
+				"sendBtn"
+			],
+			[
+				"sendM",
+				"sendMsg"
+			],
+			[
+				"window",
+				"windowWidth"
+			],
+			[
+				"sendMs",
+				"sendMsgBool"
+			],
+			[
+				"show",
+				"showSendMessage"
+			],
+			[
+				"sho",
+				"showSendMessage"
+			],
+			[
+				"background",
+				"background-color"
+			],
+			[
+				"in",
+				"inst"
+			],
+			[
+				"sta",
+				"start"
+			],
+			[
+				"mouse",
+				"mousePressed"
+			],
+			[
+				"he",
+				"height"
+			],
+			[
+				"pos",
+				"position"
+			],
+			[
+				"messa",
+				"messageCanvas"
+			],
+			[
+				"stroke",
+				"strokeWeight"
+			],
+			[
+				"mesa",
+				"messageCanvas"
+			],
+			[
+				"maes",
+				"messageCanvas"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"v",
+				"vOffset"
+			],
+			[
+				"hre",
+				"hrefArray"
+			],
+			[
+				"is",
+				"isPlaying"
+			],
+			[
+				"heig",
+				"height-bHeight"
+			],
+			[
+				"create",
+				"createCanvas"
+			],
+			[
+				"thi",
+				"thick"
+			],
+			[
+				"t",
+				"tHeight"
+			],
+			[
+				"key",
+				"keyPressed"
+			],
+			[
+				"text-",
+				"text-align\tproperty"
+			],
+			[
+				"init",
+				"initialFreq"
+			],
+			[
+				"fr",
+				"freq"
+			],
+			[
+				"firs",
+				"firstSound"
+			],
+			[
+				"linep",
+				"linePoint1"
+			],
+			[
+				"mov",
+				"moveVertical"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/teodorodannemann/Documents/sonicDraw/sketch.js",
+		"/Users/teodorodannemann/Documents/sonicDraw/package.json",
+		"/Users/teodorodannemann/Documents/sonicDraw/public/index.html",
+		"/Users/teodorodannemann/Documents/sonicDraw/public/sketch.js",
+		"/Users/teodorodannemann/Documents/sonicDraw/public/libraries/p5soundWorkingVersion/p5.sound_latest.js",
+		"/Users/teodorodannemann/Documents/sonicDraw/public/libraries/p5soundWorkingVersion/p5.sound.js",
+		"/Users/teodorodannemann/Desktop/index2.html",
+		"/Users/teodorodannemann/Documents/sonicDraw2/public/libraries/p5.sound.js",
+		"/Users/teodorodannemann/Downloads/windows/script.js",
+		"/Users/teodorodannemann/Downloads/windows/style.css",
+		"/Users/teodorodannemann/Documents/Bela_KB/knowledge_base/docs/tutorials/puredata/analog/analog-input.md",
+		"/Users/teodorodannemann/Desktop/Crafting GUIs - The Bela Knowledge Base.htm",
+		"/Users/teodorodannemann/bela/Bela/core/default_libpd_render.cpp",
+		"/Users/teodorodannemann/bela/Bela/examples/Gui/order.json",
+		"/Users/teodorodannemann/Documents/musicBox/index.html",
+		"/Users/teodorodannemann/Documents/sharedMusic/index.html",
+		"/Users/teodorodannemann/Documents/sharedMusic/sharedMusic.js",
+		"/Users/teodorodannemann/Documents/sharedMusic/node_modules/socket.io-client/README.md",
+		"/Users/teodorodannemann/Documents/sharedMusic/package.json",
+		"/Users/teodorodannemann/Documents/p5js_basic/musicBox/index.html",
+		"/Users/teodorodannemann/Documents/p5js_basic/vida/examples/index.html",
+		"/Users/teodorodannemann/Documents/p5js_basic/vida/examples/active_zones_progressive_background_video_example.js",
+		"/Users/teodorodannemann/Documents/p5js_basic/vida/examples/active_zones_progressive_background_camera_example.js",
+		"/Users/teodorodannemann/Documents/p5js_basic/vida/examples/blobs_progressive_background_video_example.js",
+		"/Users/teodorodannemann/Downloads/Moodplay dataset/moodplay_dataset.py",
+		"/Users/teodorodannemann/Downloads/main (1).html",
+		"/Users/teodorodannemann/Downloads/week 1a/sin_generator/render.cpp",
+		"/Users/teodorodannemann/Downloads/references1.bib",
+		"/Users/teodorodannemann/Documents/Arduino/libraries/NewSoftSerial/NewSoftSerial.cpp",
+		"/Users/teodorodannemann/Downloads/MPL115A1/MPL115A1.h",
+		"/Users/teodorodannemann/Documents/unity/Boids-master/Assets/Test/ProbePolisher/Editor/PolishableProbeMixerEditor.cs",
+		"/Users/teodorodannemann/Documents/unity/Boids-master/Assets/Test/ProbePolisher/PolishableProbeMixer.cs",
+		"/Users/teodorodannemann/Documents/unity/Boids-master/Assets/Test/ProbePolisher/ProbePolisher.cs",
+		"/Users/teodorodannemann/Documents/unity/Boids-master/Assets/BoidController.cs",
+		"/Users/teodorodannemann/Downloads/SparkFun_MPU-9250_Breakout_Arduino_Library-master 4/src/MPU9250.cpp",
+		"/Users/teodorodannemann/Downloads/BirdFlock-1.0.0/Assets/Scripts/Boid.cs",
+		"/Users/teodorodannemann/Downloads/BirdFlock-1.0.0/Assets/Scripts/MathTools.cs",
+		"/Users/teodorodannemann/Documents/unity/Roll-a-ball/Assets/Scripts/PlayerController.cs",
+		"/Users/teodorodannemann/Documents/unity/Roll-a-ball/Assets/Scripts/CameraController.cs"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "index.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 214.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
