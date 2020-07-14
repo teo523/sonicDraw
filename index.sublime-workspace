@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"fon",
+				"font-style\tproperty"
+			],
+			[
+				"store",
+				"storeSelection"
+			],
+			[
+				"background-c",
+				"background-color\tproperty"
+			],
+			[
 				"cnv",
 				"canv"
 			],

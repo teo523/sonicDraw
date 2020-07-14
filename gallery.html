@@ -20,6 +20,28 @@
 </head>
 
 <style>
+
+  .loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .btn {
   border: solid;
   background-color: black;
@@ -31,7 +53,7 @@
 }
 
 .btn:hover {
-  border: 2px solid white;
+  border: 10px solid red;
   background-color: white;
   color: black;
   padding: 4px 8px;
@@ -39,15 +61,67 @@
   cursor: pointer;
   text-align: left;
 }
+
+body {
+  background-color: black;
+
+
+}
+
+table {
+  border-spacing: 15px;
+}
+
+h1,h2 {
+  color: white;
+  font-family: courier;
+
+}
+div.gallery {
+  margin: 5px 5px 5px 5px;
+  border: 3px solid #ccc;
+  float: left;
+  width: 360px;
+}
+
+div.gallery:hover {
+  border: 3px solid red;
+}
+
+div.gallery img {
+  width: 100%;
+  height: auto;
+}
+
+div.desc {
+  padding: 15px;
+  text-align: center;
+  color: white;
+  font-family: courier;
+}
 </style>
 
+<header>
+ <h1>
+    Gallery
+  </h1>
+
+  <h2>
+    Click on an image to watch (and hear) the contributed sonic drawing.
+  </h2>
+
+</header>
 
 <body>
-  <table id ="List">
-    <tbody>
-      
-    </tbody>
-  </table>
+
+ 
+<div id="load">
+<div class="loader"></div>
+<h2>Loading Gallery...</h2>
+</div>
+<div id ="List">
+   
+  </div>
 
 
 
@@ -75,8 +149,9 @@ var ref = database.ref("sketches");
 var sketches;
 var keys = [];
 var y = [];
-var x, j;
+var x, j, total;
 var t = 1;
+var ld = document.querySelector("#load");
 ref.on("value", gotData, errData);
 
 
@@ -96,6 +171,7 @@ $('#List').find('tbody').html('');
 var i = 0;
 
 storageRef.listAll().then(function(result){
+  total = result.items.length;
  result.items.forEach(function(imageRef){
 
 //console.log(imageRef.toString());
@@ -109,7 +185,7 @@ i++;
 });
 
 setTimeout(storeSelection,2000);
-
+ld.style.display = "none";
 
 }
 
@@ -117,17 +193,18 @@ function displayImage(row, images){
   images.getDownloadURL().then(function(url){
 
   let new_html = '';
-  new_html += '<tr>';
-  new_html += '<td>';
-  new_html += String(sketches[keys[row]].Name);
-  new_html += '</td>';
-  new_html += '<td>';
+  new_html += '<div class="gallery">';
   new_html += '<a href= "./draw.html">';
-  new_html += '<img src="'+url+'" alt= '+ keys[row] + ' class="drawings" width ="200vw">'; 
+  new_html += '<img src="'+url+'" alt= '+ keys[row] + ' class="drawings" width ="400vw">'; 
   new_html += '</a>';
-  new_html += '</td>';
-  new_html += '</tr>';
-  $('#List').find('tbody').append(new_html);
+  new_html += '<div class="desc">'+ String(sketches[keys[row]].Name)+'</div>';
+  new_html += '</div>';
+
+ 
+ 
+
+  $('#List').append(new_html);
+  console.log(row + " " + new_html);
   });
 
 
