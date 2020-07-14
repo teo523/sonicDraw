@@ -68,6 +68,12 @@ body {
 
 }
 
+header {
+  background-color: rgb(0, 0, 102);
+
+
+}
+
 table {
   border-spacing: 15px;
 }
@@ -99,6 +105,8 @@ div.desc {
   color: white;
   font-family: courier;
 }
+
+
 </style>
 
 <header>
@@ -220,6 +228,7 @@ function storeSelection() {
   for (const elem of x) {
     elem.addEventListener('click',function(){
       localStorage.setItem('selDrawing',String(elem.alt));
+
       k++;
     });
   }

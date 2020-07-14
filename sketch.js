@@ -69,6 +69,12 @@ function setup() {
     //canv.hide();
     //makeDisplay(false);
     
+    loader = select("#load");
+    loader.style("width",JSON.stringify(floor(width/3)));
+    loader.position((width-loader.width)/2,(height-loader.height)/2)
+    loader.hide();
+    loader.style("background-color","grey");
+
     saveC = createButton("save canvas");
     saveC.mousePressed(sendCanvas);
     saveC.position(20,20);
@@ -138,7 +144,10 @@ function setup() {
 	database = firebase.database();
      
 	var ref = database.ref("sketches");
-	ref.on("value", gotData, errData);
+	if (localStorage.selDrawing!=undefined){
+        loader.show();
+        ref.on("value", gotData, errData);
+    }
 
 
 }
@@ -769,6 +778,7 @@ function submitButton(){
 
 function gotData(data) {
     //console.log(data.val());
+    
     var sketches = data.val();
     keys = Object.keys(sketches);
     ex = sketches[localStorage.selDrawing];
@@ -793,9 +803,9 @@ function gotData(data) {
     for (var i = 0; i < Object.keys(ex).length; i++){
 
 
-        console.log(i);
+        //console.log(i);
         if (ex[i].history != undefined){
-        console.log(ex[i].history);
+        //console.log(ex[i].history);
        
        //Create a new particle object and an oscillator epending on the selected brush
         particles.push(new Particle(ex[i].history[0][0]*width/wd, ex[i].history[0][1]*height*ht,  ex[i].history[0][2] + 10, ex[i].type));
@@ -890,6 +900,7 @@ function gotData(data) {
     }
 }
 
+loader.hide()
 }
 
 

@@ -39,12 +39,39 @@
   cursor: pointer;
   text-align: left;
 }
+
+  .loader {
+
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+
+  margin: 0 auto;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
 <body>
 
 <!--<p id="text2" style="writing-mode: tb-rl; font-family: courier; font-size: 2vw; padding: 10px 0px 0px 2px; margin: 5px; border-style: dashed; border-color: black; text-align: center; vertical-align: bottom;">    D R O P - F I L E</p>-->
 
-
+<div id="load">
+<div class="loader"></div>
+<h2>Loading a Sonic Sketch...</h2>
+</div>
 
 <div id="sendMsg" style="background-color:rgb(200,200,200);  font-family: courier; font-size: 1vw; padding: 0px 20px 0px 20px; border-style: solid; border-color: black; z-index:3000" >
 <p id="sendTxt" style="font-family: courier; font-size: 1.3vw; padding: 5px 5px 5px 5px; margin: 5px; border-style: dashed; border-color: black; text-align: center; border-width: 1">Please enter below your name (or a nickname if you prefer to remain anonymous) and then press SEND.</p> <br>
