@@ -8,7 +8,7 @@
     <script language="javascript" type="text/javascript" src="libraries/p5.sound.js"></script>
    
  
-    <script language="javascript" type="text/javascript" src="sketch.js"></script>
+    <script language="javascript" type="text/javascript" src="index.js"></script>
 
     <link rel="stylesheet" href="style.css">
 
@@ -21,7 +21,7 @@
   background-color: black;
   color: white;
   padding: 4px 8px;
-  font-size: 1.3vw;
+  font-size: 2vw;
   cursor: pointer;
   text-align: left;
 }
@@ -31,9 +31,18 @@
   background-color: white;
   color: black;
   padding: 4px 8px;
-  font-size: 1.5vw;
+  font-size: 2vw;
   cursor: pointer;
   text-align: left;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 </style>
 <body style="background-color: black">
@@ -45,8 +54,8 @@
 
 
 
-<div style="background-color:rgb(200,200,200);  font-family: courier; font-size: 1vw; padding: 0px 20px 0px 20px; border-style: solid; border-color: black; z-index:3000" >
-<p style="font-family: courier; font-size: 1.3vw; padding: 5px 5px 5px 5px; margin: 5px; border-style: dashed; border-color: black; text-align: center; border-width: 1">Welcome to SonicDraw. How would you like to start?</p> <br>
+<div class="vertical-center" style="background-color:rgb(200,200,200);  font-family: courier; font-size: 2vw; padding: 0px 20px 0px 20px; border-style: solid; border-color: black; z-index:3000" >
+<h1 style="font-family: courier; font-size: 2vw; padding: 5px 5px 5px 5px; margin: 5px; border-style: dashed; border-color: black; text-align: center; border-width: 1">Welcome to SonicDraw! <br> How would you like to start?</h1> <br>
 
 <a href="./draw.html"><button id="play" class=btn style="z-index:2000;margin-left:auto;margin-right:auto;">Draw a sound</button></a>
 <a href="./gallery.html"><button id="gallery" class=btn style="z-index:2000; margin-left:auto;margin-right:auto;">Visit the Gallery</button>
