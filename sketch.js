@@ -97,7 +97,7 @@ function gotData(data) {
         delete dir["Speed"];
 
 
-        json[nm]={};
+        json[nm]=[];
 
         for (var j = 0; j < Object.keys(dir).length; j++){
             console.log(j);
