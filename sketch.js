@@ -1,6 +1,6 @@
 //var socket;
 var database;
-
+var sketches;
 function setup() {
 
 
@@ -81,7 +81,7 @@ function gotData(data) {
 
     var json = {};
 
-    var sketches = data.val();
+    sketches = data.val();
     keys = Object.keys(sketches);
 
     for (var i = 0; i < keys.length; i++){
@@ -108,7 +108,7 @@ function gotData(data) {
         json[nm][j]=newDir;
 
         }
-    
+
         
     }
 
