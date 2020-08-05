@@ -85,20 +85,35 @@ function gotData(data) {
     keys = Object.keys(sketches);
 
     for (var i = 0; i < keys.length; i++){
-        ex = sketches[keys[i]];
-        var nm = ex["Name"];
-        delete ex["date"];
-        delete ex["maxX"];
-        delete ex["maxY"];
-        delete ex["width"];
-        delete ex["height"];
-        delete ex["Name"];
-        delete ex["Speed"];
-        json[nm]=ex;
+        dir = sketches[keys[i]];
+        var nm = dir["Name"];
+        delete dir["date"];
+        delete dir["maxX"];
+        delete dir["maxY"];
+        delete dir["width"];
+        delete dir["height"];
+        delete dir["Name"];
+        delete dir["Speed"];
+
+        json[nm]={};
+
+        for (var j = 0; j < dir.length; j++){
+            newDir = {};
+            for (var k = 0; k < dir[j].length - 1; k++){
+                var a = [];
+                a[0]=dir[j][k+1][0]-dir[j][k][0];
+                a[1]=dir[j][k+1][1]-dir[j][k][1];
+                newDir.push(a);
+            }
+        json[nm][j]=newDir;
+
+        }
+
+        
     }
 
 
-    saveJSON(json,"ex.json");
+    saveJSON(json,"dir.json");
     
     
 
