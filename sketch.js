@@ -78,11 +78,28 @@ function setup() {
 function gotData(data) {
     //console.log(data.val());
     
+
+    var json = {};
+
     var sketches = data.val();
     keys = Object.keys(sketches);
-    ex = sketches[keys[1]];
+
+    for (var i = 0; i < keys.length; i++){
+        ex = sketches[keys[i]];
+        var nm = ex["Name"];
+        delete ex["date"];
+        delete ex["maxX"];
+        delete ex["maxY"];
+        delete ex["width"];
+        delete ex["height"];
+        delete ex["Name"];
+        delete ex["Speed"];
+        json[nm]=ex;
+    }
+
+
+    saveJSON(json,"ex.json");
     
-    saveJSON(ex,"ex.json");
     
 
     
