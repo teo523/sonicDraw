@@ -96,17 +96,19 @@ function gotData(data) {
         delete dir["Name"];
         delete dir["Speed"];
 
+
         json[nm]={};
 
         for (var j = 0; j < Object.keys(dir).length; j++){
             console.log(j);
             newDir = {};
+            if (dir[j]["history"]!=undefined){
             for (var k = 0; k < Object.keys(dir[j]["history"]).length - 1; k++){
                 var a = [0,0];
                 a[0]=dir[j]["history"][k+1][0]-dir[j]["history"][k][0];
                 a[1]=dir[j]["history"][k+1][1]-dir[j]["history"][k][1];
                 newDir[k]=a;
-            }
+            }}
             json[nm][j]=newDir;
 
         }
