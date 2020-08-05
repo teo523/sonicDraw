@@ -108,7 +108,7 @@ function gotData(data) {
         json[nm][j]=newDir;
 
         }
-    console.log(dir["history"][0][0][1]);
+    
         
     }
 
