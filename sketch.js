@@ -108,7 +108,7 @@ function gotData(data) {
         json[nm][j]=newDir;
 
         }
-
+   console.log("a");
         
     }
 
