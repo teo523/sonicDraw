@@ -1,6 +1,7 @@
 //var socket;
 var database;
 var sketches;
+var newDir;
 function setup() {
 
 
@@ -105,10 +106,10 @@ function gotData(data) {
                 a[1]=dir[j]["history"][k+1][1]-dir[j]["history"][k][1];
                 newDir[k]=a;
             }
-        json[nm][j]=newDir;
+            json[nm][j]=newDir;
 
         }
-   console.log("b");
+   console.log("c");
         
     }
 
