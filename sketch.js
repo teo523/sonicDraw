@@ -107,9 +107,9 @@ function gotData(data) {
                 var a = [0,0];
                 a[0]=dir[j]["history"][k+1][0]-dir[j]["history"][k][0];
                 a[1]=dir[j]["history"][k+1][1]-dir[j]["history"][k][1];
-                newDir[k]=a;
+                json[nm].push(a);
             }}
-            json[nm][j]=newDir;
+            
 
         }
    console.log("ok");
