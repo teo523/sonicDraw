@@ -98,7 +98,7 @@ function gotData(data) {
 
         json[nm]={};
 
-        for (var j = 0; j < dir.length; j++){
+        for (var j = 0; j < Object.keys(dir).length;; j++){
             console.log(j);
             newDir = {};
             for (var k = 0; k < dir[j].length - 1; k++){
@@ -110,7 +110,7 @@ function gotData(data) {
             json[nm][j]=newDir;
 
         }
-   console.log("d");
+   console.log("ok");
         
     }
 
