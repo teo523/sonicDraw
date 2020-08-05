@@ -100,15 +100,15 @@ function gotData(data) {
         for (var j = 0; j < dir.length; j++){
             newDir = {};
             for (var k = 0; k < dir[j].length - 1; k++){
-                var a = [];
+                var a = [0,0];
                 a[0]=dir[j]["history"][k+1][0]-dir[j]["history"][k][0];
                 a[1]=dir[j]["history"][k+1][1]-dir[j]["history"][k][1];
-                newDir.push(a);
+                newDir[k]=a;
             }
         json[nm][j]=newDir;
 
         }
-   console.log("a");
+   console.log("b");
         
     }
 
