@@ -912,7 +912,7 @@ function errData(err){
 
 function sendCanvas(){
 var storageRef = firebase.storage().ref();
-var childRef = storageRef.child(keys[nn] + '.jpg');
+var childRef = storageRef.child('teo.jpg');
 
 var canvas0 = document.getElementById('defaultCanvas0');
 
