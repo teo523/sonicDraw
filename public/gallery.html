@@ -90,7 +90,7 @@ div.gallery {
   margin: 5px 5px 5px 5px;
   border: 3px solid #ccc;
   float: left;
-  width: 360px;
+  width: 20vw;
 }
 
 div.gallery:hover {
@@ -181,7 +181,8 @@ function gotData(data) {
 $('#List').find('tbody').html('');
 var i = 0;
 
-storageRef.listAll().then(function(result){
+
+storageRef.list({ maxResults: 10}).then(function(result){
   total = result.items.length;
  result.items.reverse().forEach(function(imageRef){
 
@@ -204,9 +205,9 @@ function displayImage(row, images){
   images.getDownloadURL().then(function(url){
 
   let new_html = '';
-  new_html += '<div class="gallery">';
+  new_html += '<div class="gallery" width =20vw>';
   new_html += '<a href= "./draw.html">';
-  new_html += '<img src="'+url+'" alt= '+ keys[row] + ' class="drawings" width ="400vw">'; 
+  new_html += '<img src="'+url+'" alt= '+ keys[row] + ' class="drawings">'; 
   new_html += '</a>';
   new_html += '<div class="desc">'+ String(sketches[keys[row]].Name)+'</div>';
   new_html += '</div>';
