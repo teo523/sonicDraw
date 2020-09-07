@@ -764,9 +764,10 @@ function submitButton(){
     stringify = JSON.stringify(json);
 
     var ref = database.ref("sketches");
-
+   
     ref.push(json);
 
+    ref.on("value", sendCanvas, errData);
 
     alert("Thank you! your piece was submitted successfully! Now you can go back to the form")
     
@@ -910,9 +911,15 @@ function errData(err){
     console.log(err);
 }
 
-function sendCanvas(){
+function sendCanvas(data){
+
+var sketches = data.val();
+keys = Object.keys(sketches);
+var id = keys[keys.length - 1];
+console.log("id: " + id);
+
 var storageRef = firebase.storage().ref();
-var childRef = storageRef.child('teo.jpg');
+var childRef = storageRef.child(id + '.jpg');
 
 var canvas0 = document.getElementById('defaultCanvas0');
 
