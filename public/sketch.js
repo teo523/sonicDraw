@@ -78,7 +78,7 @@ function setup() {
     saveC = createButton("save canvas");
     saveC.mousePressed(sendCanvas);
     saveC.position(20,20);
-    saveC.hide();
+    //saveC.hide();
 
     
    
