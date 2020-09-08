@@ -63,7 +63,7 @@ function preload() {
 function setup() {
 
 
-    canv = createCanvas(0.95*windowWidth, windowHeight);
+    canv = createCanvas(windowWidth, windowHeight);
     //canv.style("z-index","1");
     background(255,255,255);
     //canv.hide();
@@ -71,7 +71,7 @@ function setup() {
     
     loader = select("#load");
     loader.style("width",JSON.stringify(floor(width/3)));
-    loader.position((width-loader.width)/2,(height-loader.height)/2)
+    loader.position((width-loader.width)/2,(height-loader.height)/2);
     loader.hide();
     loader.style("background-color","grey");
 
@@ -80,7 +80,9 @@ function setup() {
     saveC.position(20,20);
     saveC.hide();
 
-    
+    backB = select("#back");
+    //backB.style("width", JSON.stringify(width-4*bWidth));
+    backB.position(0,0);
    
 
     sendMsg = select("#sendMsg");
@@ -393,6 +395,9 @@ function draw() {
 
     
     slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
+    backB.position(4 * bWidth ,8*tHeight);
+    backB.style("height",JSON.stringify(floor(height - bHeight + vOffset/2-8*tHeight)));
+    backB.style("width", JSON.stringify(width-4*bWidth));
 
     //start.position(width/2,5*height/6);
     //showInitMessage()
@@ -610,7 +615,7 @@ function menuButtons() {
     image(icon8, width-tWidth/2-icon8.width/2,7*tHeight/2-icon8.height/2);
     noStroke();
 
-    vOffset = (height - bHeight - 8*tHeight)/2;
+    vOffset = (height - bHeight - 8*tHeight)/10;
     translate(0, vOffset);
 
     //airbrushes rectangles
