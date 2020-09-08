@@ -774,7 +774,7 @@ function submitButton(){
 
     ref.on("value", sendCanvas, errData);
 
-    alert("Thank you! your piece was submitted successfully! You can check it out in the gallery!")
+    
     
 
 
@@ -936,6 +936,7 @@ childRef.put(blob).then(function(snapshot) {
 
 });
 
+alert("Thank you! your piece was submitted successfully! You can check it out in the gallery!")
 
 
 }
