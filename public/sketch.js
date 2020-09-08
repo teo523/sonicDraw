@@ -769,7 +769,7 @@ function submitButton(){
 
     ref.on("value", sendCanvas, errData);
 
-    alert("Thank you! your piece was submitted successfully! Now you can go back to the form")
+    alert("Thank you! your piece was submitted successfully! You can check it out in the gallery!")
     
 
 
