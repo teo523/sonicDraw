@@ -63,7 +63,7 @@ function preload() {
 function setup() {
 
 
-    canv = createCanvas(windowWidth, windowHeight);
+    canv = createCanvas(0.95*windowWidth, windowHeight);
     //canv.style("z-index","1");
     background(255,255,255);
     //canv.hide();
@@ -110,6 +110,7 @@ function setup() {
     slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
     slider.style("width", "8vw");
      slider.style("background", "red");
+     
     
 
    /* text2 = select("#text2");
@@ -397,7 +398,8 @@ function draw() {
     slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
     backB.position(4 * bWidth ,8*tHeight);
     backB.style("height",JSON.stringify(floor(height - bHeight + vOffset/2-8*tHeight - 5)));
-    backB.style("width", JSON.stringify(width-4*bWidth));
+    backB.style("width", JSON.stringify(floor(width-4*bWidth)));
+    
 
     //start.position(width/2,5*height/6);
     //showInitMessage()
@@ -435,11 +437,7 @@ function draw() {
  	//saveCanvas(author,"png");
  	saveCnv = 0;
  }
-if (!started)
-{rect()
-fill("rgba(10,10,10,0.5)");
-rect(0,0,width,height);
-}
+
 }
 
 
@@ -763,6 +761,7 @@ function submitButton(){
             json[i].history[j]=[];
             json[i].history[j][0]= particles[i].history[j].x;
             json[i].history[j][1]= particles[i].history[j].y;
+            json[i].history[j][2]= particles[i].history[j].z;
 
         }
     }
