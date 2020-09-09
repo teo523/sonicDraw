@@ -63,7 +63,7 @@ function preload() {
 function setup() {
 
 
-    canv = createCanvas(0.95*windowWidth, windowHeight);
+    canv = createCanvas(windowWidth, windowHeight);
     //canv.style("z-index","1");
     background(255,255,255);
     //canv.hide();
@@ -100,7 +100,7 @@ function setup() {
     tHeight=height/10;
     bWidth= (width - tWidth - 6 * vOffset)/4;
 
-    extracanvas = createGraphics(0.95*windowWidth, windowHeight);
+    extracanvas = createGraphics(windowWidth, windowHeight);
     extracanvas.clear();
 
     //messageCanvas = createGraphics(windowWidth-2*border, windowHeight-2*border);
