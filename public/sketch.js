@@ -396,7 +396,7 @@ function draw() {
     
     slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
     backB.position(4 * bWidth ,8*tHeight);
-    backB.style("height",JSON.stringify(floor(height - bHeight + vOffset/2-8*tHeight)));
+    backB.style("height",JSON.stringify(floor(height - bHeight + vOffset/2-8*tHeight - 5)));
     backB.style("width", JSON.stringify(width-4*bWidth));
 
     //start.position(width/2,5*height/6);
@@ -684,7 +684,7 @@ function menuButtons() {
     fill(255);
     rect(4 * bWidth + vOffset + (width - (4 * bWidth + vOffset))/2, height - bHeight + vOffset/2,(width - (4 * bWidth + vOffset))/2,2*bHeight/3 - vOffset);
     icon16.resize(0.7*tHeight,0.7*tHeight);
-    image(icon16, 4 * bWidth + vOffset + (width - (4 * bWidth + vOffset))/2 + icon16.width/2, height - bHeight + vOffset/2 + icon16.height/6);
+    image(icon16, 4 * bWidth + vOffset + (width - (4 * bWidth + vOffset))/2 + icon16.width/3, height - bHeight + vOffset/2 + icon16.height/6);
 
 
 }
