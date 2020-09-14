@@ -68,7 +68,7 @@ function setup() {
 
     
 
-    socket = io.connect(process.env.PORT || 3000);
+    socket = io.connect();
 
     lineThickness = 1;
     var data = {

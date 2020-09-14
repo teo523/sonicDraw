@@ -11,7 +11,7 @@ app.get('/', function (req, res) {
     res.sendfile(__dirname + '/public/index.html');
 });
 
-console.log(' * Running on http://' + config.server + ':' + config.port.toString());
+
 
 client_setting = {};
 io.sockets.on('connection', function (socket) {
