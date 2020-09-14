@@ -68,7 +68,7 @@ function setup() {
 
     
 
-    socket = io.connect('http://87.75.171.102:8888');
+    socket = io.connect(process.env.PORT || 3000);
 
     lineThickness = 1;
     var data = {

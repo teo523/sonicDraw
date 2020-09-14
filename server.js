@@ -2,11 +2,9 @@ var config = require(__dirname + '/config');
 var express = require('express');
 
 var app = express();
-var server = require('http').Server(app);
+var server = app.listen(process.env.PORT || 3000);
 var io = require('socket.io')(server);
-const port = process.env.PORT;
 
-server.listen(PORT);
 
 app.use(express.static(__dirname + '/public'));
 app.get('/', function (req, res) {
