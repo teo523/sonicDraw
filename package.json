@@ -1,12 +1,29 @@
 {
-  "name": "sonicDraw",
+  "name": "lets-draw",
   "version": "1.0.0",
-  "description": "",
-  "main": "gallery.js",
+  "description": "draw together on a canvas",
+  "main": "server.js",
   "scripts": {
-    "build": "rm -rf ./dist/* && cp ./index.html  ./dist/index.html && cp ./index.js  ./dist/index.js && cp ./sketch.js ./dist/sketch.js && cp -r ./libraries ./dist/libraries && cp -r ./images ./dist/images && cp style.css ./dist/style.css &&  cp gallery.html ./dist/gallery.html && cp gallery.js ./dist/gallery.js && cp draw.html ./dist/draw.html "
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "keywords": [
+    "sockets",
+    "p5.js",
+    "node"
+  ],
+  "author": "Tristan Trouwen",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^1.7.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TriRpi/lets-draw.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TriRpi/lets-draw/issues"
+  },
+  "homepage": "https://github.com/TriRpi/lets-draw#readme"
 }
