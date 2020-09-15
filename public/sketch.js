@@ -38,6 +38,7 @@ var ex;
 var nm;
 var keys;
 var nn = 23; 
+var colors = [[255,255,0],[255,0,255],[0, 255, 255],[300,300,300]];
 
 function preload() {
     icon1 = loadImage('images/icon1.png');
@@ -62,7 +63,7 @@ function preload() {
 
 function setup() {
     var canv = createCanvas(windowWidth, windowHeight);
-    background(255,255,255);
+    background(0,20,0);
 
 
 
@@ -191,19 +192,19 @@ function mousePressed() {
             filters.push(new p5.HighPass());
         if (option == 1){
             osc.push(new p5.Oscillator('sine'));
-            lineColor.push([255,0,0]);
+            lineColor.push(colors[0]);
         }
         else if (option == 2){
             osc.push(new p5.Oscillator('sawtooth'));
-            lineColor.push([180,0,60]);
+            lineColor.push(colors[1]);
         }
         else if (option == 3){
             osc.push(new p5.Oscillator('triangle'));
-            lineColor.push([60,0,180]);
+            lineColor.push(colors[2]);
         }
         else if (option == 4){
             osc.push(new p5.Oscillator('square'));
-            lineColor.push([0,0,255]);
+            lineColor.push(colors[3]);
         }
         else if (option == 5){
             
@@ -212,7 +213,7 @@ function mousePressed() {
             osc.push(new p5.Noise());
             osc[osc.length-1].disconnect();
             osc[osc.length-1].connect(filters[filters.length-1]);
-            lineColor.push([255,0,0]);
+            lineColor.push(colors[0]);
         }
         else if (option == 6){
                 
@@ -221,7 +222,7 @@ function mousePressed() {
             osc.push(new p5.Noise('pink'));
             osc[osc.length-1].disconnect();
             osc[osc.length-1].connect(filters[filters.length-1]);
-            lineColor.push([180,0,60]);
+            lineColor.push(colors[1]);
         }
         else if (option == 7){
             
@@ -230,7 +231,7 @@ function mousePressed() {
             osc.push(new p5.Noise('brown'));
             osc[osc.length-1].disconnect();
             osc[osc.length-1].connect(filters[filters.length-1]);
-            lineColor.push([60,0,180]);
+            lineColor.push(colors[1]);
         }
         else if (option == 8){
             
@@ -239,7 +240,7 @@ function mousePressed() {
             osc.push(new p5.Noise());
             osc[osc.length-1].disconnect();
             osc[osc.length-1].connect(filters[filters.length-1]);
-            lineColor.push([0,0,255]);
+            lineColor.push(colors[0]);
         }    
         //starts in off mode
         isOn.push(0);
@@ -348,7 +349,7 @@ function mouseDragged() {
 }
 
 function draw() {
-   background(255,123,0);
+   background(0,20,0);
     //a= a + frameRate();
     //if (random() < 0.1)
     //console.log("frameRate: " + frameRate() + " , average: " + a/frameCount);
@@ -387,7 +388,7 @@ function draw() {
     }
 
     menuButtons();
-    stroke(0,0,0);
+    stroke(300,300,300);
     line(headX,0,headX,height-bHeight);
     if (isPlaying){
         headX+=speed;
@@ -479,19 +480,19 @@ function addParticle(trace) {
             filters.push(new p5.HighPass());
         if (trace.type == 1){
             osc.push(new p5.Oscillator('sine'));
-            lineColor.push([255,0,0]);
+            lineColor.push(colors[0]);
         }
         else if (trace.type == 2){
             osc.push(new p5.Oscillator('sawtooth'));
-            lineColor.push([180,0,60]);
+            lineColor.push(colors[1]);
         }
         else if (trace.type == 3){
             osc.push(new p5.Oscillator('triangle'));
-            lineColor.push([60,0,180]);
+            lineColor.push(colors[2]);
         }
         else if (trace.type == 4){
             osc.push(new p5.Oscillator('square'));
-            lineColor.push([0,0,255]);
+            lineColor.push(colors[3]);
         }
         else if (trace.type == 5){
             
@@ -500,7 +501,7 @@ function addParticle(trace) {
             osc.push(new p5.Noise());
             osc[osc.length-1].disconnect();
             osc[osc.length-1].connect(filters[filters.length-1]);
-            lineColor.push([255,0,0]);
+            lineColor.push(colors[0]);
         }
         else if (trace.type == 6){
                 
@@ -509,7 +510,7 @@ function addParticle(trace) {
             osc.push(new p5.Noise('pink'));
             osc[osc.length-1].disconnect();
             osc[osc.length-1].connect(filters[filters.length-1]);
-            lineColor.push([180,0,60]);
+            lineColor.push(colors[1]);
         }
         else if (trace.type == 7){
             
@@ -518,7 +519,7 @@ function addParticle(trace) {
             osc.push(new p5.Noise('brown'));
             osc[osc.length-1].disconnect();
             osc[osc.length-1].connect(filters[filters.length-1]);
-            lineColor.push([60,0,180]);
+            lineColor.push(colors[2]);
         }
         else if (trace.type == 8){
             
@@ -527,7 +528,7 @@ function addParticle(trace) {
             osc.push(new p5.Noise());
             osc[osc.length-1].disconnect();
             osc[osc.length-1].connect(filters[filters.length-1]);
-            lineColor.push([0,0,255]);
+            lineColor.push(colors[3]);
         }    
         //starts in off mode
         isOn.push(0); 
@@ -659,7 +660,7 @@ function menuButtons() {
     strokeWeight(4);
     
     //paint bottom bar rectangles with white frame if they are selected
-    fill(255,0,0);
+    fill(colors[0]);
     if (option == 1 || option == 5)
         stroke(255);
 
@@ -670,7 +671,7 @@ function menuButtons() {
 
     if (option == 2 || option == 6)
         stroke(255);
-    fill(180,0,60);
+    fill(colors[1]);
     rect(bWidth,height - bHeight,bWidth,bHeight);
     icon2.resize(bHeight/2,bHeight/2);
     image(icon2, 3*bWidth/2-icon2.width/2,height-bHeight/2-icon1.height/2);
@@ -678,7 +679,7 @@ function menuButtons() {
 
     if (option == 3 || option == 7) 
         stroke(255);
-    fill(60,0,180);
+    fill(colors[2]);
     rect(2*bWidth,height - bHeight,bWidth,bHeight);
     icon3.resize(bHeight/2,bHeight/2);
     image(icon3, 5*bWidth/2-icon1.width/2,height-bHeight/2-icon1.height/2);
@@ -686,7 +687,7 @@ function menuButtons() {
 
     if (option == 4 || option == 8)
         stroke(255);
-    fill(0,0,255);
+    fill(colors[3]);
     rect(3*bWidth,height - bHeight,bWidth,bHeight);
     icon4.resize(bHeight/2,bHeight/2);
     image(icon4, 7*bWidth/2-icon1.width/2,height-bHeight/2-icon1.height/2);
@@ -810,13 +811,13 @@ function airbrush() {
   
      
     if (option == 5)
-        extracanvas.fill(255,0,0);
+        extracanvas.fill(colors[0]);
     if (option == 6)
-        extracanvas.fill(180,0,60);
+        extracanvas.fill(colors[1]);
     if (option == 7)
-        extracanvas.fill(60,0,180);
+        extracanvas.fill(colors[2]);
     if (option == 8)
-        extracanvas.fill(0,0,255);
+        extracanvas.fill(colors[3]);
     extracanvas.ellipse(r3, r4, sz, sz);
 }
 
