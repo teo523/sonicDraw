@@ -117,6 +117,30 @@ function setup() {
     slider.style("width", "8vw");
      slider.style("background", "red");
      
+
+    //Firebase
+    var firebaseConfig = {
+    apiKey: "AIzaSyB3sRkBJQM5FNdqa9PaZvrI6n_-fPxR7ak",
+    authDomain: "sonicdraw-tr.firebaseapp.com",
+    databaseURL: "https://sonicdraw-tr.firebaseio.com",
+    projectId: "sonicdraw-tr",
+    storageBucket: "sonicdraw-tr.appspot.com",
+    messagingSenderId: "664295741160",
+    appId: "1:664295741160:web:cfb432a79e39898e789b5d",
+    measurementId: "G-K8WZJ83DER"
+  };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    
+    database = firebase.database();
+     
+    var ref = database.ref("sketches");
+    // if (localStorage.selDrawing!=undefined){
+    //     loader.show();
+    //     ref.on("value", gotData, errData);
+    // }    
     
 }
 
@@ -794,4 +818,80 @@ function airbrush() {
     if (option == 8)
         extracanvas.fill(0,0,255);
     extracanvas.ellipse(r3, r4, sz, sz);
+}
+
+
+
+function submitButton(){
+
+
+    inp = select("#name");
+
+
+    var json = {};
+    
+    json["Name"]=inp.value();
+    json["Speed"]=speed;
+    json["date"]=year()+"-" + month()+"-"+day()+" - "+hour()+":"+minute()+":"+second();
+    json["width"]=width;
+    json["height"]=height;
+    json["maxX"]=width - tWidth;
+    json["maxY"]=height - bHeight;
+
+    for (var i = 0; i < particles.length; i++){
+        json[i]={};
+        json[i].type=particles[i].type;
+        json[i].history=[];
+        for (var j = 0; j < particles[i].history.length; j++){
+            json[i].history[j]=[];
+            json[i].history[j][0]= particles[i].history[j].x;
+            json[i].history[j][1]= particles[i].history[j].y;
+            json[i].history[j][2]= particles[i].history[j].z;
+
+        }
+    }
+    stringify = JSON.stringify(json);
+
+    var ref = database.ref("sketches");
+   
+    ref.push(json);
+
+    ref.on("value", sendCanvas, errData);
+
+    
+    
+
+
+}
+
+
+
+function errData(err){
+    console.log(err);
+}
+
+
+function sendCanvas(data){
+
+var sketches = data.val();
+keys = Object.keys(sketches);
+var id = keys[keys.length - 1];
+console.log("id: " + id);
+
+var storageRef = firebase.storage().ref();
+var childRef = storageRef.child(id + '.jpg');
+
+var canvas0 = document.getElementById('defaultCanvas0');
+
+canvas0.toBlob(function(blob) {
+       // use the Blob or File API
+childRef.put(blob).then(function(snapshot) {
+  console.log('Uploaded a blob or file!');
+});
+
+});
+
+alert("Thank you! your piece was submitted successfully! You can check it out in the gallery!")
+
+
 }
