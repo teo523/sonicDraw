@@ -15,6 +15,8 @@ app.get('/', function (req, res) {
 
 client_setting = {};
 io.sockets.on('connection', function (socket) {
+    var clientIpAddress = socket.request.headers['x-forwarded-for'] || socket.request.connection.remoteAddress;
+    console.log(' new request from : '+clientIpAddress);
     console.log('[*] info: new connection ' + socket.id);
     client_setting[socket.id] = {
         thickness: 0,
