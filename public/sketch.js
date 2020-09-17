@@ -25,7 +25,7 @@ var email;
 var picker;
 var border = 90;
 var canv;
-var started = 1;
+var started = 0;
 var begin = 1;
 var sendMsgBool = 0;
 var a= 0;
@@ -39,6 +39,10 @@ var nm;
 var keys;
 var nn = 23; 
 var colors = [[255,255,0],[255,0,255],[0, 255, 255],[300,300,300]];
+var users = ["teo","juan","diego"];
+var connectCounter = 0;
+var activeUsers = 0;
+var auth = 0;
 
 function preload() {
     icon1 = loadImage('images/icon1.png');
@@ -79,6 +83,13 @@ function setup() {
     
 
     socket.on('trace', addParticle);
+    socket.on('activeUsers', function(act) {
+        activeUsers = act;
+    });
+    socket.on('numConnected', function(num) {
+        console.log("People connected: " + num);
+    });
+
 
     loader = select("#load");
     loader.style("width",JSON.stringify(floor(width/3)));
@@ -88,9 +99,26 @@ function setup() {
 
 
     backB = select("#back");
+    backB.hide();
     //backB.style("width", JSON.stringify(width-4*bWidth));
-    backB.position(0,0);
+    //backB.position(0,0);
    
+    initMsg = select("#initMsg");
+    initMsg.style("width",JSON.stringify(floor(width/3)));
+    initMsg.position(width/2-initMsg.width/2,height/2-initMsg.height/2);
+    initBtn = select("#initBtn");
+    initBtn.mouseReleased(hideInitMessage);
+
+    blockMsg = select("#blockMsg");
+    blockMsg.style("width",JSON.stringify(floor(width/3)));
+    blockMsg.position(width/2-blockMsg.width/2,height/2-blockMsg.height/2);
+    blockMsg.hide();
+
+    waitMsg = select("#waitMsg");
+    waitMsg.style("width",JSON.stringify(floor(width/3)));
+    waitMsg.position(width/2-waitMsg.width/2,height/2-waitMsg.height/2);
+    waitMsg.hide();
+ 
 
     sendMsg = select("#sendMsg");
     sendMsg.hide();
@@ -157,6 +185,22 @@ function hideSendMessage() {
     saveCnv = 1;
    
     submitButton();}
+}
+
+
+function hideInitMessage() {
+    
+    inp = select("#user");
+    if (users.indexOf(inp.value())==-1){
+        alert("Usuario Incorrecto!")
+    }
+    else {
+    initMsg.hide();
+    author = inp.value();
+    started = 1;
+    auth = 1;
+    socket.emit('auth',1);
+}
 }
 
 function cancelSendMessage() {
@@ -350,37 +394,15 @@ function mouseDragged() {
 
 function draw() {
    background(0,20,0);
-    //a= a + frameRate();
-    //if (random() < 0.1)
-    //console.log("frameRate: " + frameRate() + " , average: " + a/frameCount);
-    
 
-    if (!started && !begin && !sendMsgBool){
-        text2.hide();
-        slider.hide();
-        resizeCanvas(0.6*windowWidth, windowHeight,1);
-        extracanvas.size(0.6*windowWidth, windowHeight,1);
-        begin = 1;
-        isPlaying=0;
-    }
-   
-    
-    //canv.hide();
-    
-   
 
-    
     slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
-    backB.position(4 * bWidth ,8*tHeight);
-    backB.style("height",JSON.stringify(floor(height - bHeight + vOffset/2-8*tHeight - 5)));
-    backB.style("width", JSON.stringify(floor(width-4*bWidth)));
-    
-
-    //start.position(width/2,5*height/6);
-    //showInitMessage()
-    //showParagraph();
-//(width - (4 * bWidth + vOffset))/2,2*bHeight/3 - vOffset)
     speed = slider.value();
+    /*backB.position(4 * bWidth ,8*tHeight);
+    backB.style("height",JSON.stringify(floor(height - bHeight + vOffset/2-8*tHeight - 5)));
+    backB.style("width", JSON.stringify(floor(width-4*bWidth)));*/
+    
+    
 
     if (mouseIsPressed && mouseY<=5*height/6 && mouseX<=width-tWidth && started) {
         mouseDragged();
@@ -388,8 +410,12 @@ function draw() {
     }
 
     menuButtons();
+    
     stroke(300,300,300);
     line(headX,0,headX,height-bHeight);
+    
+    
+    //Update playhead
     if (isPlaying){
         headX+=speed;
         masterVolume(1);
@@ -397,9 +423,11 @@ function draw() {
     else
          masterVolume(0);
 
+
     if (headX>=width-tWidth)
         headX=0;
     playOscillators();
+
 
     for (var i = 0; i < particles.length; i++) {
     if (particles[i].type < 5)
@@ -413,6 +441,36 @@ function draw() {
     saveCnv = 0;
  }
 
+    if (!started)
+    {rect()
+    fill("rgba(10,10,10,0.5)");
+    rect(0,0,width,height);
+    }
+
+    if (activeUsers >= 2 && auth == 0){
+        blockMsg.show();
+        initMsg.hide();
+        started = 0;
+
+    }
+
+    else if (activeUsers < 2 && auth == 0) 
+    {
+        blockMsg.hide();
+        initMsg.show();
+    }
+
+    else if (activeUsers == 1 && auth == 1){
+        blockMsg.hide();
+        initMsg.hide();
+        waitMsg.show();
+        started = 0;
+    }
+
+    if (started == 0 && auth == 1 && activeUsers == 2) {
+        started = 1;
+        waitMsg.hide();
+    }
 }
 
 /*function changeSlider() {
@@ -544,13 +602,13 @@ function addParticle(trace) {
   
      
             if (trace.type == 5)
-                extracanvas.fill(255,0,0);
+                extracanvas.fill(colors[0]);
             if (trace.type == 6)
-                extracanvas.fill(180,0,60);
+                extracanvas.fill(colors[1]);
             if (trace.type == 7)
-                extracanvas.fill(60,0,180);
+                extracanvas.fill(colors[2]);
             if (trace.type == 8)
-                extracanvas.fill(0,0,255);
+                extracanvas.fill(colors[3]);
             extracanvas.ellipse(r3, r4, sz, sz);
             }
         particles[particles.length-1].history.push(v);  
@@ -621,17 +679,31 @@ var Playing = 0;
         if (abs(particles[i].history[j].x-headX)< 5){
             Playing = 1;
             let x = 5 - particles[i].history[j].y/(height/6);
+
             let f = 50*pow(2,x);
-            if(particles[i].type<=4)
+            let ampF = 1;
+            let amp2 = 1;
+
+            if(particles[i].type==2)
+                ampF = 0.1;
+            else if(particles[i].type==4)
+                ampF = 0.1;
+            //console.log(f); fmax=1589, fmin = 50;
+            
+            if(particles[i].type<=4){
                 osc[i].freq(f);
+                amp2=((-1/775)*osc[i].freq().value+(95/31));
+            }
                 
+            if (particles[i].type==8)
+                amp2=0.2;
+
             else if (particles[i].type<=6)
                 filters[i].freq(f);
             else 
                 filters[i].freq(f);
-
-            osc[i].amp(map(particles[i].history[j].z,1,10,0.01,0.2),0.01);
-          
+            
+            osc[i].amp(amp2*ampF*map(particles[i].history[j].z,1,10,0.01,0.2),0.01);
            if (isOn[i] == 0){
             
             osc[i].start();  
