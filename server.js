@@ -45,6 +45,26 @@ io.sockets.on('connection', function (socket) {
         }
     });
 
+
+    socket.on('sending', function(send) {
+      if (aut == 1){
+        socket.broadcast.emit('sending', send);
+      }
+
+        });
+
+    socket.on('sent', function(send) {
+      if (aut == 1){
+        socket.broadcast.emit('sent', send);
+      }
+
+        });
+
+    socket.on('mouse', function(mouse) {
+        socket.broadcast.emit('mouse', mouse);
+        });
+
+
     socket.on('disconnect', function() {
       console.log('Got disconnect!');
       if (aut == 1){

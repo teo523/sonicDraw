@@ -11,7 +11,6 @@ var osc = [];
 var isOn = [];
 let icon1,icon2,icon3,icon4;
 var option = 1;
-var vector = [];
 var timeSteps = 500;
 var thick = 7;
 var bHeight;
@@ -39,10 +38,13 @@ var nm;
 var keys;
 var nn = 23; 
 var colors = [[255,255,0],[255,0,255],[0, 255, 255],[300,300,300]];
-var users = ["teo","juan","diego"];
+var users = ["teo123","alejandro123"];
 var connectCounter = 0;
 var activeUsers = 0;
 var auth = 0;
+var userId;
+var mouseX2;
+var mouseY2;
 
 function preload() {
     icon1 = loadImage('images/icon1.png');
@@ -67,7 +69,7 @@ function preload() {
 
 function setup() {
     var canv = createCanvas(windowWidth, windowHeight);
-    background(0,20,0);
+    background(200,200,200);
 
 
 
@@ -82,6 +84,11 @@ function setup() {
     };
     
 
+    sendMsg2 = select("#sendMsg2");
+    sendMsg2.hide();
+    sendMsg2.style("width",JSON.stringify(floor(width/3)));
+    sendMsg2.position(width/2-sendMsg2.width/2,height/2-sendMsg2.height/2);
+
     socket.on('trace', addParticle);
     socket.on('activeUsers', function(act) {
         activeUsers = act;
@@ -90,6 +97,31 @@ function setup() {
         console.log("People connected: " + num);
     });
 
+    socket.on('sending', function(send) {
+        if (send) {
+            sendMsg2.show();
+            sendMsgBool = 1;
+            started = 0;
+        }
+        else {
+            sendMsg2.hide();
+            sendMsgBool = 0;
+            started = 1;
+        }
+    });
+
+
+    socket.on('sent', function(send) {
+        started = 1;
+        sendMsgBool = 0;
+        sendMsg2.hide();
+        alert("Tu compañero envió su obra! Felicitaciones!");
+    });
+
+    socket.on('mouse', function(mouse) {
+        mouseX2=mouse.x*(width-tWidth);
+        mouseY2=mouse.y*(height-bHeight);
+    });
 
     loader = select("#load");
     loader.style("width",JSON.stringify(floor(width/3)));
@@ -183,6 +215,7 @@ function hideSendMessage() {
     sendMsg.hide();
     author = inp.value();
     saveCnv = 1;
+    socket.emit('sent',1);
    
     submitButton();}
 }
@@ -191,14 +224,25 @@ function hideSendMessage() {
 function hideInitMessage() {
     
     inp = select("#user");
-    if (users.indexOf(inp.value())==-1){
+    if (users.indexOf(inp.value())==-1 && inp.value()!="ver"){
         alert("Usuario Incorrecto!")
+    }
+    else if (inp.value()=="ver"){
+    	initMsg.hide();
+    	author = inp.value();
     }
     else {
     initMsg.hide();
     author = inp.value();
     started = 1;
+    extracanvas.clear();
+    particles = [];
+    osc = [];
+    filters = [];
+    lineColor = [];
+    extracanvas.clear();
     auth = 1;
+    userId = activeUsers;
     socket.emit('auth',1);
 }
 }
@@ -206,8 +250,11 @@ function hideInitMessage() {
 function cancelSendMessage() {
     
     sendMsg.hide();
+    sendMsg2.hide();
     sendMsgBool = 0;
     started = 1;
+    socket.emit('sending',0);
+
 
 }
 
@@ -337,6 +384,10 @@ function mousePressed() {
                     //console.log(JSON.stringify(width/3));
                     sendMsg.position(width/2-sendMsg.width/2,height/2-sendMsg.height/2);
                     sendMsg.show();
+                    var send = 1;
+                    started = 0;
+                    socket.emit('sending', send);
+
                     
 
                     //submitButton();
@@ -358,6 +409,8 @@ function mousePressed() {
 
         }
     }
+    	if (!started && mouseY > height - bHeight + vOffset/2 && mouseY < height - bHeight + vOffset/2 + 2*bHeight/3 - vOffset && mouseX > 4 * bWidth + vOffset && mouseX < 4 * bWidth + vOffset + (width - (4 * bWidth + vOffset))/2) 
+            isPlaying = 1 - isPlaying;
 }
 
 
@@ -394,14 +447,26 @@ function mouseDragged() {
 
 function draw() {
    background(0,20,0);
-
-
+    
     slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
     speed = slider.value();
     /*backB.position(4 * bWidth ,8*tHeight);
     backB.style("height",JSON.stringify(floor(height - bHeight + vOffset/2-8*tHeight - 5)));
     backB.style("width", JSON.stringify(floor(width-4*bWidth)));*/
-    
+    if (userId == 1){
+    	mousePos = {
+    		x: mouseX/(width - tWidth),
+    		y: mouseY/(height-bHeight)
+    	}
+    	socket.emit('mouse',mousePos)
+    }
+
+    fill(255,0,0);
+    ellipse(mouseX,mouseY,20,20);
+
+    fill(0,0,255);
+    ellipse(mouseX2,mouseY2,20,20);
+
     
 
     if (mouseIsPressed && mouseY<=5*height/6 && mouseX<=width-tWidth && started) {
@@ -458,6 +523,8 @@ function draw() {
     {
         blockMsg.hide();
         initMsg.show();
+        isPlaying = 0;
+        started = 0;
     }
 
     else if (activeUsers == 1 && auth == 1){
@@ -465,11 +532,22 @@ function draw() {
         initMsg.hide();
         waitMsg.show();
         started = 0;
+        isPlaying = 0;
     }
 
-    if (started == 0 && auth == 1 && activeUsers == 2) {
+    if (started == 0 && auth == 1 && activeUsers == 2 && sendMsgBool == 0) {
         started = 1;
         waitMsg.hide();
+        particles = [];
+        osc = [];
+        filters = [];
+        lineColor = [];
+         extracanvas.clear();
+    }
+
+    if (author == "ver"){
+    initMsg.hide();
+        started = 0;
     }
 }
 
@@ -964,7 +1042,7 @@ childRef.put(blob).then(function(snapshot) {
 
 });
 
-alert("Thank you! your piece was submitted successfully! You can check it out in the gallery!")
+alert("Gracias! Su obra se ha enviado con éxito!")
 
 
 }
