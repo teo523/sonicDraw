@@ -45,6 +45,8 @@ var auth = 0;
 var userId;
 var mouseX2;
 var mouseY2;
+var mouseArray = [];
+
 
 function preload() {
     icon1 = loadImage('images/icon1.png');
@@ -83,6 +85,9 @@ function setup() {
         color: lineColor
     };
     
+    mouseArray[0]=[];
+    mouseArray[1]=[];
+    mouseArray[2]=[];
 
     sendMsg2 = select("#sendMsg2");
     sendMsg2.hide();
@@ -453,21 +458,41 @@ function draw() {
     /*backB.position(4 * bWidth ,8*tHeight);
     backB.style("height",JSON.stringify(floor(height - bHeight + vOffset/2-8*tHeight - 5)));
     backB.style("width", JSON.stringify(floor(width-4*bWidth)));*/
-    if (userId == 1){
-    	mousePos = {
-    		x: mouseX/(width - tWidth),
-    		y: mouseY/(height-bHeight)
-    	}
-    	socket.emit('mouse',mousePos)
+   
+    mousePos = {
+    	x: mouseX/(width - tWidth),
+    	y: mouseY/(height-bHeight)
+    }
+
+    mousePos2 = {
+    	x: mouseX2/(width - tWidth),
+    	y: mouseY2/(height-bHeight)
+    }
+
+    //We store user0 mouse movements always in mouseArray[1] and user1 in mouseArray[2]
+    socket.emit('mouse',mousePos);
+
+    if (mouseX >= 0 && mouseY >= 0 && mouseX2 >= 0 && mouseY2 >= 0 && started == 1){
+	    mouseArray[0].push(millis());
+	    if(userId==0){
+	    	mouseArray[1].push(mousePos);
+	    	mouseArray[2].push(mousePos2);
+	    }
+	    else {
+	    	mouseArray[1].push(mousePos2);
+	    	mouseArray[2].push(mousePos);
+	    }
     }
 
     fill(255,0,0);
     ellipse(mouseX,mouseY,20,20);
 
-    fill(0,0,255);
-    ellipse(mouseX2,mouseY2,20,20);
+    if (userId == 0){
+	    fill(0,0,255);
+	    ellipse(mouseX2,mouseY2,20,20);
+	   }
 
-    
+
 
     if (mouseIsPressed && mouseY<=5*height/6 && mouseX<=width-tWidth && started) {
         mouseDragged();
@@ -980,7 +1005,7 @@ function submitButton(){
 
 
     var json = {};
-    
+    json["mouse"]=mouseArray;
     json["Name"]=inp.value();
     json["Speed"]=speed;
     json["date"]=year()+"-" + month()+"-"+day()+" - "+hour()+":"+minute()+":"+second();
