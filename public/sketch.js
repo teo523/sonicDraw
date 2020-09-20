@@ -46,6 +46,7 @@ var userId;
 var mouseX2;
 var mouseY2;
 var mouseArray = [];
+var names;
 
 
 function preload() {
@@ -100,6 +101,10 @@ function setup() {
     });
     socket.on('numConnected', function(num) {
         console.log("People connected: " + num);
+    });
+
+    socket.on('names', function(nm) {
+        names = nm;
     });
 
     socket.on('sending', function(send) {
@@ -248,6 +253,7 @@ function hideInitMessage() {
     extracanvas.clear();
     auth = 1;
     userId = activeUsers;
+    socket.emit('names',inp.value());
     socket.emit('auth',1);
 }
 }
@@ -1006,7 +1012,7 @@ function submitButton(){
 
     var json = {};
     json["mouse"]=mouseArray;
-    json["Name"]=inp.value();
+    json["Name"]=names;
     json["Speed"]=speed;
     json["date"]=year()+"-" + month()+"-"+day()+" - "+hour()+":"+minute()+":"+second();
     json["width"]=width;

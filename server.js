@@ -12,7 +12,7 @@ app.get('/', function (req, res) {
     res.sendfile(__dirname + '/public/index.html');
 });
 
-
+var names = [];
 
 client_setting = {};
 io.sockets.on('connection', function (socket) {
@@ -34,6 +34,14 @@ io.sockets.on('connection', function (socket) {
     socket.on('trace', function (data) {
         all_data = data;
         socket.broadcast.emit('trace', all_data);
+    });
+
+    socket.on('names', function (name) {
+       if(names.indexOf(name)==-1)
+            names.push(name);
+        console.log(names);
+        socket.emit('names', names);
+        socket.broadcast.emit('names', names);
     });
 
     socket.on('auth', function () {
