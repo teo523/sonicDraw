@@ -217,17 +217,12 @@ function setup() {
 
 function hideSendMessage() {
     
-    inp = select("#name");
-    if (inp.value()==""){
-        alert("Please write a name or a nickname")
-    }
-    else {
+    
     sendMsg.hide();
-    author = inp.value();
     saveCnv = 1;
     socket.emit('sent',1);
    
-    submitButton();}
+    submitButton();
 }
 
 
