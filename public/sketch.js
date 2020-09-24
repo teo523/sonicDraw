@@ -38,7 +38,8 @@ var nm;
 var keys;
 var nn = 23; 
 var colors = [[255,255,0],[255,0,255],[0, 255, 255],[300,300,300]];
-var users = ["teo123","alejandro123"];
+var users = ["teo123", "alejandro123", "claudia123", "samuel123"];
+var names =  [];
 var connectCounter = 0;
 var activeUsers = 0;
 var auth = 0;
@@ -46,7 +47,7 @@ var userId;
 var mouseX2;
 var mouseY2;
 var mouseArray = [];
-var names;
+var channelNames = [];
 
 
 function preload() {
@@ -107,6 +108,11 @@ function setup() {
         names = nm;
     });
 
+	socket.on('channelNames', function(nms) {
+        channelNames = nms;
+    });
+    
+
     socket.on('sending', function(send) {
         if (send) {
             sendMsg2.show();
@@ -131,6 +137,11 @@ function setup() {
     socket.on('mouse', function(mouse) {
         mouseX2=mouse.x*(width-tWidth);
         mouseY2=mouse.y*(height-bHeight);
+    });
+
+    socket.on('userId', function(id) {
+        userId = id;
+        console.log("assigned id: " + id);
     });
 
     loader = select("#load");
@@ -229,13 +240,19 @@ function hideSendMessage() {
 function hideInitMessage() {
     
     inp = select("#user");
-    if (users.indexOf(inp.value())==-1 && inp.value()!="ver"){
+    var input = inp.value();
+    if (users.indexOf(input)==-1 && inp.value()!="ver"){
         alert("Usuario Incorrecto!")
     }
-    else if (inp.value()=="ver"){
+    else if (input=="ver"){
     	initMsg.hide();
-    	author = inp.value();
+    	author = input;
     }
+
+    else if (users.indexOf(inp.value())!=-1 && inp.value()!="ver" && names.indexOf(input)==-1){
+    	alert("Este usuario ya está conectado!");
+    }
+
     else {
     initMsg.hide();
     author = inp.value();
@@ -247,9 +264,9 @@ function hideInitMessage() {
     lineColor = [];
     extracanvas.clear();
     auth = 1;
-    userId = activeUsers;
     socket.emit('names',inp.value());
     socket.emit('auth',1);
+    userId = activeUsers;
 }
 }
 
@@ -1007,7 +1024,7 @@ function submitButton(){
 
     var json = {};
     json["mouse"]=mouseArray;
-    json["Name"]=names;
+    json["Names"]=channelNames;
     json["Speed"]=speed;
     json["date"]=year()+"-" + month()+"-"+day()+" - "+hour()+":"+minute()+":"+second();
     json["width"]=width;
