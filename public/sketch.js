@@ -38,7 +38,7 @@ var nm;
 var keys;
 var nn = 23; 
 var colors = [[255,255,0],[255,0,255],[0, 255, 255],[300,300,300]];
-var users = ["teo123", "alejandro123", "claudia123", "samuel123"];
+var users = ["grupo1u1", "grupo1u2", "grupo2u1", "grupo2u2", "grupo3u1", "grupo3u2", "grupo4u1", "grupo4u2", "grupo5u1", "grupo5u2", "grupo6u1", "grupo6u2", "grupo7u1", "grupo7u2", "grupo8u1", "grupo8u2", "grupo9u1", "grupo9u2", "grupo10u1", "grupo10u2", "grupo11u1", "grupo11u2", "grupo12u1", "grupo12u2", "grupo13u1", "grupo13u2", "grupo14u1", "grupo14u2", "grupo15u1", "grupo15u2"];
 var names =  [];
 var connectCounter = 0;
 var activeUsers = 0;
