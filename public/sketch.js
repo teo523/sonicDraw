@@ -144,6 +144,7 @@ function setup() {
         console.log("assigned id: " + id);
     });
 
+    socket.emit('names',"Teo");
     loader = select("#load");
     loader.style("width",JSON.stringify(floor(width/3)));
     loader.position((width-loader.width)/2,(height-loader.height)/2);
@@ -198,6 +199,8 @@ function setup() {
     slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
     slider.style("width", "8vw");
      slider.style("background", "red");
+
+     initMsg.hide();
      
 
     //Firebase
@@ -470,7 +473,7 @@ function mouseDragged() {
 
 function draw() {
    background(0,20,0);
-    
+    started=1;
     slider.position(4*bWidth+3*vOffset ,height-0.8* bHeight / 3);
     speed = slider.value();
     /*backB.position(4 * bWidth ,8*tHeight);
@@ -555,7 +558,8 @@ function draw() {
     rect(0,0,width,height);
     }
 
-    if (activeUsers >= 2 && auth == 0){
+//UNCOMMENT HERE FOR PAIRWISE USE
+   /* if (activeUsers >= 2 && auth == 0){
         blockMsg.show();
         initMsg.hide();
         started = 0;
@@ -591,7 +595,7 @@ function draw() {
     if (author == "ver"){
     initMsg.hide();
         started = 0;
-    }
+    }*/
 }
 
 /*function changeSlider() {

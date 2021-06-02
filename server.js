@@ -42,7 +42,8 @@ io.sockets.on('connection', function (socket) {
     socket.on('trace', function (data) {
         all_data = data;
         //socket.broadcast.emit('trace', all_data);
-        socket.to(channel).emit('trace', all_data);
+        //socket.to(channel).emit('trace', all_data);
+        socket.broadcast.emit('trace', all_data);
     });
 
     /*socket.on('names', function (name) {
@@ -56,7 +57,8 @@ io.sockets.on('connection', function (socket) {
     socket.on('names', function (nm) {
         name = nm;
         socket.join(partners[name]);
-        channel = partners[name];
+        //channel = partners[name];
+        channel = 1;
         channels[channel].push(name);
         delete partners[name];
         
