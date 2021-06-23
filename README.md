@@ -7,7 +7,9 @@ SonicDraw is inspired by the role of sketching in architecture and design as a c
 
 ## References
 [1] Bourotte, R. (2012). The Upic and Its Descendants: Drawing Sound.
+
 [2] Bryan-Kinns, N. (2011). Annotating distributed scores for mutual engagement in daisyphone and beyond.
+
 [3] Coleman, W., Cullen, C., Yan, M., & O’Sullivan, L. sonicPainter: Modifications to the Computer Music Sequencer Inspired by Legacy Composition Systems and Visual Art.
-[4] Thiebaut, J. B., Healey, P. G., & Bryan-Kinns, N. (2008).
-Drawing electroacoustic music.
+
+[4] Thiebaut, J. B., Healey, P. G., & Bryan-Kinns, N. (2008). Drawing electroacoustic music.
