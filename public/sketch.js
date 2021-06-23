@@ -350,8 +350,8 @@ function mouseDragged() {
     if (mouseY<=5*height/6 && mouseX<=width-tWidth){
     var mousex = mouseX;
     var mousey = mouseY;
-    cursorX = 0.93*cursorX+0.07*mousex;
-    cursorY = 0.93*cursorY+0.07*mousey;
+    cursorX = 0.88*cursorX+0.12*mousex;
+    cursorY = 0.88*cursorY+0.12*mousey;
     var data = {
         x: cursorX,
         y: cursorY,
